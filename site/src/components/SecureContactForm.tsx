@@ -275,8 +275,10 @@ export default function SecureContactForm() {
           src="/assets/glowing_beacon_contact.png"
           alt="Lichtbaken dat de weg wijst — contact achtergrond"
           fill
-          className="object-cover object-center opacity-30 pointer-events-none"
           priority
+          fetchPriority="high"
+          sizes="(max-width: 768px) 100vw, 1200px"
+          className="object-cover object-center opacity-30 pointer-events-none"
         />
         <div className="relative z-10 w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="space-y-8">

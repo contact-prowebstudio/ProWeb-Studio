@@ -88,7 +88,8 @@ export default function HomePage() {
           alt="Kosmische nevel achtergrond voor webontwikkeling en 3D ervaringen"
           fill
           priority
-          sizes="100vw"
+          fetchPriority="high"
+          sizes="(max-width: 768px) 100vw, 1200px"
           className="object-cover opacity-60"
         />
 

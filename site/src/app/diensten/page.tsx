@@ -139,6 +139,9 @@ export default function Diensten() {
           src="/assets/nebula_services_background.png"
           alt="Nebula achtergrond met zwevende geometrische vormen"
           fill
+          priority
+          fetchPriority="high"
+          sizes="(max-width: 768px) 100vw, 1200px"
           className="object-cover opacity-50"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-cosmic-900/40 to-cosmic-900/80" />
