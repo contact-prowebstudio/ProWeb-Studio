@@ -239,16 +239,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - robots.txt, sitemap.xml (SEO files)
-     * - manifest.json (PWA manifest)
-     * - sw.js (service worker)
-     * - Assets folder
-     */
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json|sw.js|assets|logo-proweb-icon.svg|logo-proweb-lockup.svg).*)',
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json|sw.js|assets|fonts|images|api/csp-report).*)',
   ],
 };
