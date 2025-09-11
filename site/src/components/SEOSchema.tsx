@@ -1,6 +1,20 @@
 import Script from 'next/script';
 import { siteConfig } from '@/config/site.config';
 
+// Helper function to build absolute URLs safely
+const SITE_URL =
+  process.env.SITE_URL ??
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  'https://prowebstudio.nl'; // fallback only for build-time
+
+function abs(path: string): string {
+  try {
+    return new URL(path, SITE_URL).toString();
+  } catch {
+    return path.startsWith('http') ? path : `${SITE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+  }
+}
+
 interface SEOSchemaProps {
   pageType?: 'homepage' | 'service' | 'contact' | 'about';
   pageTitle?: string;
@@ -31,7 +45,7 @@ export default function SEOSchema({
       'Website laten maken Nederland',
     ],
     description: siteConfig.description,
-    url: baseUrl,
+    url: abs('/'),
     inLanguage: 'nl-NL',
     copyrightYear: new Date().getFullYear(),
     creator: {
@@ -69,11 +83,14 @@ export default function SEOSchema({
     name: siteConfig.name,
     alternateName: 'ProWeb Studio Nederland',
     description: siteConfig.description,
-    url: baseUrl,
-    logo: `${baseUrl}/assets/logo/logo-proweb-lockup.svg`,
-    image: `${baseUrl}/assets/logo/logo-proweb-lockup.svg`,
+    inLanguage: 'nl-NL',
+    url: abs('/'),
+    logo: abs('/assets/logo/logo-proweb-lockup.svg'),
+    image: abs('/assets/logo/logo-proweb-lockup.svg'),
+    email: process.env.CONTACT_INBOX || siteConfig.email,
     telephone: siteConfig.phone,
-    email: siteConfig.email,
+    openingHours: ['Mo-Fr 09:00-18:00'],
+    priceRange: '$$',
     foundingDate: '2024',
     numberOfEmployees: {
       '@type': 'QuantitativeValue',
@@ -110,42 +127,8 @@ export default function SEOSchema({
       'Google Analytics',
       'Conversion optimalisatie',
     ],
-    areaServed: {
-      '@type': 'Country',
-      name: 'Nederland',
-      sameAs: 'https://en.wikipedia.org/wiki/Netherlands',
-    },
-    serviceArea: [
-      'Nederland',
-      'Amsterdam',
-      'Rotterdam',
-      'Den Haag',
-      'Utrecht',
-      'Eindhoven',
-      'Tilburg',
-      'Groningen',
-      'Almere',
-      'Breda',
-      'Nijmegen',
-      'Enschede',
-      'Haarlem',
-      'Arnhem',
-      'Zaanstad',
-      'Haarlemmermeer',
-      'Amersfoort',
-      'Apeldoorn',
-      'Hoofddorp',
-      'Maastricht',
-      'Leiden',
-      'Dordrecht',
-      'Zoetermeer',
-      'Zwolle',
-      'Deventer',
-      'Delft',
-      'Alkmaar',
-      'Leeuwarden',
-      'Roosendaal',
-    ],
+    areaServed: { '@type': 'AdministrativeArea', name: 'Netherlands' },
+    serviceArea: { '@type': 'Place', address: { '@type': 'PostalAddress', addressCountry: 'NL' } },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Website Ontwikkeling Diensten',
@@ -289,10 +272,10 @@ export default function SEOSchema({
     '@id': `${baseUrl}#webpage`,
     name: pageTitle || `${siteConfig.name} - ${siteConfig.tagline}`,
     description: pageDescription || siteConfig.description,
-    url: baseUrl,
+    url: abs('/'),
     inLanguage: 'nl-NL',
     isPartOf: {
-      '@id': `${baseUrl}#website`,
+      '@id': abs('/#website'),
     },
     about: {
       '@id': `${baseUrl}#business`,
@@ -306,7 +289,7 @@ export default function SEOSchema({
     },
     primaryImageOfPage: {
       '@type': 'ImageObject',
-      url: `${baseUrl}/assets/logo/logo-proweb-lockup.svg`,
+      url: abs('/assets/logo/logo-proweb-lockup.svg'),
     },
     ...(pageType === 'homepage' && {
       mainEntity: {
@@ -331,7 +314,7 @@ export default function SEOSchema({
     potentialAction: [
       {
         '@type': 'ReadAction',
-        target: [baseUrl],
+        target: [abs('/')],
       },
     ],
     speakable: {

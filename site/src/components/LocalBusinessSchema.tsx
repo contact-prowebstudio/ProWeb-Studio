@@ -1,6 +1,20 @@
 import Script from 'next/script';
 import { siteConfig } from '@/config/site.config';
 
+// Helper function to build absolute URLs safely
+const SITE_URL =
+  process.env.SITE_URL ??
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  'https://prowebstudio.nl'; // fallback only for build-time
+
+function abs(path: string): string {
+  try {
+    return new URL(path, SITE_URL).toString();
+  } catch {
+    return path.startsWith('http') ? path : `${SITE_URL.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+  }
+}
+
 interface LocalBusinessSchemaProps {
   kvkNumber?: string;
   vatID?: string;
@@ -48,19 +62,24 @@ export default function LocalBusinessSchema({
     name: siteConfig.name,
     alternateName: 'ProWeb Studio Nederland',
     description: siteConfig.description,
-    url: siteConfig.url,
-    logo: `${siteConfig.url}/assets/logo/logo-proweb-lockup.svg`,
+    inLanguage: 'nl-NL',
+    url: abs('/'),
+    logo: abs('/assets/logo/logo-proweb-lockup.svg'),
     image: [
-      `${siteConfig.url}/assets/logo/logo-proweb-lockup.svg`,
-      `${siteConfig.url}/assets/hero/nebula_helix.avif`,
+      abs('/assets/logo/logo-proweb-lockup.svg'),
+      abs('/assets/logo/logo-proweb-icon.svg'),
     ],
     telephone: siteConfig.phone,
-    email: siteConfig.email,
+    email: process.env.CONTACT_INBOX || siteConfig.email,
     foundingDate: '2024',
     founder: {
       '@type': 'Person',
       name: 'ProWeb Studio Team',
     },
+    areaServed: { '@type': 'AdministrativeArea', name: 'Netherlands' },
+    serviceArea: { '@type': 'Place', address: { '@type': 'PostalAddress', addressCountry: 'NL' } },
+    openingHours: openingHours.length > 0 ? openingHours : ['Mo-Fr 09:00-18:00'],
+    priceRange: '$$',
   };
 
   // Add vatID if provided
@@ -95,40 +114,17 @@ export default function LocalBusinessSchema({
       longitude: '4.9041', // Amsterdam coordinates as default
     };
   } else {
-    // Use serviceArea/areaServed for no-address mode
+    // Use extended serviceArea/areaServed for no-address mode if provided
     const areas = areaServed || serviceArea;
     if (areas?.length) {
       const mappedAreas = areas.map((area) => ({
         '@type': 'AdministrativeArea',
         name: area,
       }));
+      // Override the default values with extended areas
       structuredData.areaServed = mappedAreas;
       structuredData.serviceArea = mappedAreas;
     }
-  }
-
-  // Add opening hours if provided
-  if (openingHours?.length) {
-    structuredData.openingHoursSpecification = openingHours.map((hours) => {
-      const [days, time] = hours.split(' ');
-      const [opens, closes] = time.split('-');
-
-      let dayOfWeek: string[] = [];
-      if (days.includes('Mo-Fr')) {
-        dayOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-      } else if (days.includes('Sa')) {
-        dayOfWeek = ['Saturday'];
-      } else if (days.includes('Su')) {
-        dayOfWeek = ['Sunday'];
-      }
-
-      return {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek,
-        opens,
-        closes,
-      };
-    });
   }
 
   // Add the rest of the structured data
@@ -196,7 +192,6 @@ export default function LocalBusinessSchema({
       bestRating: '5',
       worstRating: '1',
     },
-    priceRange: '€€€',
     currenciesAccepted: 'EUR',
     paymentAccepted: ['Cash', 'Credit Card', 'Bank Transfer', 'Invoice'],
     knowsAbout: [
