@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: 'Algemene voorwaarden – ProWeb Studio',
   description:
     'Voorwaarden voor offertes, overeenkomsten, levering, betaling, intellectuele eigendom en aansprakelijkheid.',
-  alternates: { canonical: '/voorwaarden' },
+  alternates: { 
+    canonical: '/voorwaarden',
+    languages: { 'nl-NL': '/voorwaarden' },
+  },
   openGraph: {
     title: 'Algemene voorwaarden – ProWeb Studio',
     description:

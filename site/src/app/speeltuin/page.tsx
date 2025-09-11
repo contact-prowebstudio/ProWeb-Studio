@@ -4,7 +4,10 @@ export const revalidate = 60 * 60 * 24;
 export const metadata = {
   title: 'Tech Playground – ProWeb Studio',
   description: 'Experimenteer met WebGL, Three.js en 3D-interfaces. Onze speeltuin voor performance en UX-onderzoek.',
-  alternates: { canonical: '/speeltuin' },
+  alternates: { 
+    canonical: '/speeltuin',
+    languages: { 'nl-NL': '/speeltuin' },
+  },
   openGraph: {
     title: 'Tech Playground – ProWeb Studio',
     description: 'Experimenteer met WebGL, Three.js en 3D-interfaces. Onze speeltuin voor performance en UX-onderzoek.',

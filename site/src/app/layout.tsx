@@ -10,7 +10,7 @@ import CursorTrail from '@/components/CursorTrail';
 import LocalBusinessSchema from '@/components/LocalBusinessSchema';
 import SEOSchema from '@/components/SEOSchema';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin', 'latin-ext'], display: 'swap' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -188,7 +188,7 @@ export default function RootLayout({
   const hasAddress = Boolean(addrStreet && addrCity && addrZip);
   const nlServiceArea = ['Netherlands', 'Amsterdam', 'Rotterdam', 'Utrecht', 'Den Haag', 'Eindhoven'] as const;
   return (
-    <html lang="nl">
+    <html lang="nl-NL">
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />

@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: 'Privacybeleid – ProWeb Studio',
   description:
     'Lees hoe wij met persoonsgegevens omgaan: welke data we verzamelen, waarom, bewaartermijnen en uw rechten.',
-  alternates: { canonical: '/privacy' },
+  alternates: { 
+    canonical: '/privacy',
+    languages: { 'nl-NL': '/privacy' },
+  },
   openGraph: {
     title: 'Privacybeleid – ProWeb Studio',
     description:

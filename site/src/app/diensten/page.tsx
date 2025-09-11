@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     'Maatwerk webdesign & development met 3D-ervaringen, technische SEO, Core Web Vitals en headless CMS. Gericht op groei en resultaat.',
   alternates: {
     canonical: '/diensten',
+    languages: { 'nl-NL': '/diensten' },
   },
   openGraph: {
     title: 'Diensten – Webdesign, 3D websites, SEO & performance optimalisatie',
