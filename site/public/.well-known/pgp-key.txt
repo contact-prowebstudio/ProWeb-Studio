@@ -1,0 +1,28 @@
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: ProWeb Studio Security Team Public Key
+Comment: Use this key to encrypt security-related communications
+Comment: Key ID: [TO BE GENERATED]
+Comment: Fingerprint: [TO BE GENERATED]
+Comment: 
+Comment: To generate a real PGP key for production:
+Comment: 1. Install GnuPG: https://gnupg.org/download/
+Comment: 2. Generate key: gpg --full-generate-key
+Comment: 3. Export public key: gpg --armor --export security@prowebstudio.nl
+Comment: 4. Replace this placeholder with the actual public key
+Comment:
+Comment: For security best practices:
+Comment: - Use 4096-bit RSA or Ed25519 keys
+Comment: - Set appropriate expiration dates
+Comment: - Store private keys securely
+Comment: - Regularly rotate keys
+
+[PLACEHOLDER - REPLACE WITH ACTUAL PGP PUBLIC KEY IN PRODUCTION]
+
+This is a placeholder file. In production, replace this with your actual
+PGP public key for encrypted security communications.
+
+For immediate security reports, use:
+- Email: security@prowebstudio.nl
+- Contact form: https://prowebstudio.nl/contact
+
+-----END PGP PUBLIC KEY BLOCK-----
