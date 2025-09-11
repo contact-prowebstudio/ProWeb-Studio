@@ -8,23 +8,13 @@ import Logo from '@/components/Logo';
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [is3DEnabled, setIs3DEnabled] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    const stored3D = localStorage.getItem('3d-enabled');
-    if (stored3D !== null) setIs3DEnabled(stored3D === 'true');
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggle3D = () => {
-    const newValue = !is3DEnabled;
-    setIs3DEnabled(newValue);
-    localStorage.setItem('3d-enabled', String(newValue));
-    window.location.reload();
-  };
 
   return (
     <header
@@ -65,24 +55,6 @@ export default function Header() {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-magenta-500/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Link>
           ))}
-          <button
-            onClick={toggle3D}
-            className="px-4 py-2.5 text-sm font-medium border-2 border-cyan-400/40 bg-cosmic-800/60 backdrop-blur-sm rounded-lg hover:border-cyan-400 hover:bg-cyan-400/10 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/25 hover:scale-105 relative overflow-hidden group focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-cosmic-900"
-            aria-label={`3D-graphics ${is3DEnabled ? 'uitschakelen' : 'inschakelen'}`}
-            aria-pressed={is3DEnabled}
-          >
-            <span className="relative z-10 flex items-center gap-2">
-              <div
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  is3DEnabled
-                    ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 shadow-lg shadow-cyan-400/50'
-                    : 'bg-gray-400/60'
-                }`}
-              />
-              3D {is3DEnabled ? 'Uit' : 'Aan'}
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </button>
         </nav>
 
         <button
@@ -119,24 +91,6 @@ export default function Header() {
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-magenta-500/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             ))}
-            <button
-              onClick={toggle3D}
-              className="w-full text-left px-4 py-3.5 text-sm font-medium border-2 border-cyan-400/40 bg-cosmic-800/60 backdrop-blur-sm rounded-lg hover:border-cyan-400 hover:bg-cyan-400/10 transition-all duration-300 relative overflow-hidden group focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-cosmic-900"
-              aria-pressed={is3DEnabled}
-              aria-label={`3D-graphics ${is3DEnabled ? 'uitschakelen' : 'inschakelen'}`}
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                <div
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    is3DEnabled
-                      ? 'bg-gradient-to-r from-cyan-400 to-emerald-400 shadow-lg shadow-cyan-400/50'
-                      : 'bg-gray-400/60'
-                  }`}
-                />
-                3D {is3DEnabled ? 'Uit' : 'Aan'}
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </button>
           </div>
         </nav>
       )}

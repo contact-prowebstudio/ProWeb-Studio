@@ -20,9 +20,9 @@ export default function Dynamic3DWrapper({
   className = '',
   enablePerformanceMonitoring = true
 }: Dynamic3DWrapperProps) {
-  const [is3DEnabled, setIs3DEnabled] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [hasWebGL, setHasWebGL] = useState(true);
+  const [shouldRender3D, setShouldRender3D] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -33,17 +33,17 @@ export default function Dynamic3DWrapper({
     const hasWebGLSupport = !!gl;
     setHasWebGL(hasWebGLSupport);
     
-    // Check user preference and device capabilities
-    const enabled = localStorage.getItem('3d-enabled') !== 'false';
+    // Check device capabilities and user preferences
     const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
-    setIs3DEnabled(enabled && hasWebGLSupport && !prefersReducedMotion && !isLowEndDevice);
+    // Always enable 3D when WebGL is supported, unless user prefers reduced motion or low-end device
+    setShouldRender3D(hasWebGLSupport && !prefersReducedMotion && !isLowEndDevice);
   }, []);
 
   // Performance monitoring
   useEffect(() => {
-    if (!enablePerformanceMonitoring || !is3DEnabled) return;
+    if (!enablePerformanceMonitoring || !shouldRender3D) return;
 
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
@@ -56,37 +56,20 @@ export default function Dynamic3DWrapper({
     observer.observe({ entryTypes: ['measure'] });
 
     return () => observer.disconnect();
-  }, [is3DEnabled, enablePerformanceMonitoring]);
+  }, [shouldRender3D, enablePerformanceMonitoring]);
 
   if (!isMounted) {
     return <LoadingSkeleton variant={variant} className={className} />;
   }
 
-  if (!hasWebGL) {
+  if (!hasWebGL || !shouldRender3D) {
     return (
       <div className={`${className} flex items-center justify-center bg-gradient-to-br from-gray-900 to-black`}>
         <div className="text-center p-8">
-          <p className="text-gray-400">WebGL is not supported on this device</p>
+          <p className="text-gray-400">
+            {!hasWebGL ? 'WebGL is not supported on this device' : '3D content is disabled due to performance or accessibility settings'}
+          </p>
           <p className="text-sm text-gray-500 mt-2">3D content has been disabled</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!is3DEnabled) {
-    return (
-      <div className={`${className} flex items-center justify-center bg-gradient-to-br from-gray-900 to-black`}>
-        <div className="text-center p-8">
-          <p className="text-gray-400">3D content is disabled</p>
-          <button
-            onClick={() => {
-              localStorage.setItem('3d-enabled', 'true');
-              setIs3DEnabled(true);
-            }}
-            className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-          >
-            Enable 3D Content
-          </button>
         </div>
       </div>
     );

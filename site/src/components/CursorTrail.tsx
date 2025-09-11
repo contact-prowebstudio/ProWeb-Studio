@@ -16,9 +16,6 @@ export default function CursorTrail() {
     ).matches;
     if (prefersReducedMotion) return;
 
-    const is3DEnabled = localStorage.getItem('3d-enabled') !== 'false';
-    if (!is3DEnabled) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 

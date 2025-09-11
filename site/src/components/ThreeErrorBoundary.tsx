@@ -83,16 +83,6 @@ export default class ThreeErrorBoundary extends Component<Props, State> {
               >
                 Try Again
               </button>
-              
-              <button
-                onClick={() => {
-                  localStorage.setItem('3d-enabled', 'false');
-                  window.location.reload();
-                }}
-                className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200"
-              >
-                Disable 3D Content
-              </button>
             </div>
             
             <details className="mt-4 text-left">

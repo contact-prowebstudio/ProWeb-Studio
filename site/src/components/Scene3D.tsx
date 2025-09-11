@@ -9,16 +9,13 @@ interface Scene3DProps {
 }
 
 export default function Scene3D({ children }: Scene3DProps) {
-  const [is3DEnabled, setIs3DEnabled] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    const enabled = localStorage.getItem('3d-enabled') !== 'false';
-    setIs3DEnabled(enabled);
   }, []);
 
-  if (!isMounted || !is3DEnabled) return null;
+  if (!isMounted) return null;
 
   return (
     <div className="absolute inset-0">
