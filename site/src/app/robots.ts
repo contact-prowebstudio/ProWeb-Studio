@@ -1,14 +1,12 @@
 import type { MetadataRoute } from 'next';
-import { siteConfig } from '@/config/site.config';
 
 export default function robots(): MetadataRoute.Robots {
-  const base = siteConfig.url.replace(/\/+$/, '');
+  const SITE_URL = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prowebstudio.nl';
+  const base = SITE_URL.replace(/\/+$/, '');
+  
   return {
     rules: [
-      { userAgent: '*', allow: ['/'], disallow: ['/api/', '/admin/', '/_next/', '/private/', '/temp/'] },
-      { userAgent: 'AhrefsBot', disallow: ['/'] },
-      { userAgent: 'MJ12bot', disallow: ['/'] },
-      { userAgent: 'DotBot', disallow: ['/'] },
+      { userAgent: '*', allow: ['/'] },
     ],
     sitemap: [`${base}/sitemap.xml`],
     host: base,

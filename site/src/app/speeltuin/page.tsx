@@ -11,6 +11,9 @@ export const metadata = {
   openGraph: {
     title: 'Tech Playground – ProWeb Studio',
     description: 'Experimenteer met WebGL, Three.js en 3D-interfaces. Onze speeltuin voor performance en UX-onderzoek.',
+    url: 'https://prowebstudio.nl/speeltuin',
+    type: 'website',
+    locale: 'nl_NL',
     images: [{ url: '/og', width: 1200, height: 630 }],
   },
 } as const;
