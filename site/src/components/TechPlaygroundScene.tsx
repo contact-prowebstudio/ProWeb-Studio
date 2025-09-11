@@ -321,7 +321,7 @@ function CalligraphicReveal({
   });
 
   // Enhanced force update for perpetual mode
-  const [_, forceUpdate] = React.useState(0);
+  const [, forceUpdate] = React.useState(0);
   React.useEffect(() => {
     const interval = perpetual ? 16 : 16; // Faster updates for perpetual
     const handle = setInterval(() => forceUpdate((c) => c + 1), interval);
@@ -807,7 +807,7 @@ function SceneContent({
           mipmapBlur
         />
         <ChromaticAberration
-          offset={[0.0005, 0.0005] as any}
+          offset={new THREE.Vector2(0.0005, 0.0005)}
           radialModulation={false}
           modulationOffset={0}
           blendFunction={BlendFunction.NORMAL}

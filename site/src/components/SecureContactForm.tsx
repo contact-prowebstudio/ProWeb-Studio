@@ -38,7 +38,10 @@ type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 // Declare reCAPTCHA global
 declare global {
   interface Window {
-    grecaptcha: any;
+    grecaptcha: {
+      ready: (callback: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
   }
 }
 
@@ -100,11 +103,14 @@ export default function SecureContactForm() {
       document.addEventListener('keydown', handleKeyDown);
       formRef.current.addEventListener('focusin', handleFocus);
 
+      // Capture the current ref value for cleanup
+      const currentFormRef = formRef.current;
+
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('keydown', handleKeyDown);
-        if (formRef.current) {
-          formRef.current.removeEventListener('focusin', handleFocus);
+        if (currentFormRef) {
+          currentFormRef.removeEventListener('focusin', handleFocus);
         }
       };
     }
@@ -149,11 +155,17 @@ export default function SecureContactForm() {
         return;
       }
 
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+      if (!siteKey) {
+        reject(new Error('reCAPTCHA site key not configured'));
+        return;
+      }
+
       window.grecaptcha.ready(() => {
         window.grecaptcha
-          .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: 'contact_form' })
+          .execute(siteKey, { action: 'contact_form' })
           .then((token: string) => resolve(token))
-          .catch((error: any) => reject(error));
+          .catch((error: unknown) => reject(error));
       });
     });
   };

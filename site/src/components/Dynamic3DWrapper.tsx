@@ -30,14 +30,15 @@ export default function Dynamic3DWrapper({
     // Check WebGL support
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    setHasWebGL(!!gl);
+    const hasWebGLSupport = !!gl;
+    setHasWebGL(hasWebGLSupport);
     
     // Check user preference and device capabilities
     const enabled = localStorage.getItem('3d-enabled') !== 'false';
     const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
-    setIs3DEnabled(enabled && hasWebGL && !prefersReducedMotion && !isLowEndDevice);
+    setIs3DEnabled(enabled && hasWebGLSupport && !prefersReducedMotion && !isLowEndDevice);
   }, []);
 
   // Performance monitoring

@@ -144,7 +144,7 @@ export default function StarsShell({
 
   return (
     <points ref={points}>
-      <bufferGeometry attach="geometry" {...(geo as any)} />
+      <bufferGeometry attach="geometry" {...(geo as THREE.BufferGeometry)} />
       <primitive attach="material" object={material} />
     </points>
   );

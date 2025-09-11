@@ -25,7 +25,23 @@ export default function LocalBusinessSchema({
   areaServed,
 }: LocalBusinessSchemaProps) {
   // Build the structured data dynamically based on available props
-  const structuredData: any = {
+  type StructuredData = Record<string, unknown> & {
+    '@context': string;
+    '@type': string;
+    '@id': string;
+    name: string;
+    alternateName?: string;
+    description?: string;
+    url?: string;
+    logo?: string;
+    image?: string[];
+    telephone?: string;
+    email?: string;
+    foundingDate?: string;
+    founder?: Record<string, unknown>;
+  };
+
+  const structuredData: StructuredData = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': `${siteConfig.url}#business`,

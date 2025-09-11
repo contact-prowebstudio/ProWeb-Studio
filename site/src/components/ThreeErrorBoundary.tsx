@@ -72,7 +72,7 @@ export default class ThreeErrorBoundary extends Component<Props, State> {
                 3D Content Unavailable
               </h3>
               <p className="text-gray-400 text-sm mb-4">
-                The 3D experience couldn't load. This might be due to device limitations or WebGL not being supported.
+                The 3D experience couldn&apos;t load. This might be due to device limitations or WebGL not being supported.
               </p>
             </div>
             

@@ -13,7 +13,7 @@ import Scene3D from '@/components/Scene3D';
 
 interface FloatingShapeProps {
   position: [number, number, number];
-  Component: any;
+  Component: React.ComponentType<Record<string, unknown>>;
   color: string;
 }
 

@@ -3,7 +3,7 @@
 import { lazy, ComponentType, LazyExoticComponent } from 'react';
 
 // Factory function to create optimized dynamic imports for Three.js components
-export function createDynamic3DComponent<T = {}>(
+export function createDynamic3DComponent<T = Record<string, unknown>>(
   importFn: () => Promise<{ default: ComponentType<T> }>
 ): LazyExoticComponent<ComponentType<T>> {
   return lazy(async () => {
@@ -13,8 +13,8 @@ export function createDynamic3DComponent<T = {}>(
     }
 
     try {
-      const module = await importFn();
-      return module;
+      const loadedModule = await importFn();
+      return loadedModule;
     } catch (error) {
       console.error('Failed to load 3D component:', error);
       throw error;
@@ -36,7 +36,7 @@ export const DynamicScene3D = lazy(() => import('./Scene3D'));
 export const DynamicHeroCanvas = lazy(() => import('./HeroCanvas'));
 
 // Performance monitoring wrapper
-export function withPerformanceMonitoring<T extends {}>(
+export function withPerformanceMonitoring<T extends Record<string, unknown>>(
   Component: ComponentType<T>,
   componentName: string
 ) {
@@ -47,7 +47,7 @@ export function withPerformanceMonitoring<T extends {}>(
       return (
         <Component 
           {...props} 
-          ref={(ref: any) => {
+          ref={(ref: unknown) => {
             if (ref) {
               const endTime = performance.now();
               const renderTime = endTime - startTime;

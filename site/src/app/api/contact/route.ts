@@ -98,7 +98,15 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 }
 
 // Email content validation and sanitization
-function createSafeEmailContent(data: any) {
+type ContactData = {
+  name: string;
+  email: string;
+  phone?: string;
+  projectTypes: string[];
+  message: string;
+};
+
+function createSafeEmailContent(data: ContactData) {
   const sanitizedData = {
     name: sanitizeInput(data.name),
     email: sanitizeInput(data.email),
