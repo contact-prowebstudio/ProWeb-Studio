@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const preferredRegion = ['ams1', 'fra1'];
+
 export async function POST(req: NextRequest) {
   try {
     const report = await req.json();
@@ -27,10 +32,14 @@ export async function POST(req: NextRequest) {
     // 3. Aggregate reports for analysis
     // 4. Filter out known false positives
     
-    return NextResponse.json({ received: true }, { status: 204 });
+    const res = NextResponse.json({ received: true }, { status: 204 });
+    res.headers.set('Cache-Control', 'no-store');
+    return res;
   } catch (error) {
     console.error('CSP Report parsing error:', error);
-    return NextResponse.json({ error: 'Invalid report' }, { status: 400 });
+    const res = NextResponse.json({ error: 'Invalid report' }, { status: 400 });
+    res.headers.set('Cache-Control', 'no-store');
+    return res;
   }
 }
 

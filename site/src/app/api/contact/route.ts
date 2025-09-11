@@ -3,6 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import DOMPurify from 'isomorphic-dompurify';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const preferredRegion = ['ams1', 'fra1'];
+
 // Enhanced validation schema with security considerations
 const contactSchema = z.object({
   name: z.string()
@@ -163,10 +168,12 @@ export async function POST(req: NextRequest) {
 
     if (!parsed.success) {
       console.warn(`Invalid contact form submission from ${clientIP}:`, parsed.error.flatten());
-      return NextResponse.json(
+      const res = NextResponse.json(
         { ok: false, error: 'Validation failed', details: parsed.error.flatten() },
         { status: 400 },
       );
+      res.headers.set('Cache-Control', 'no-store');
+      return res;
     }
 
     const { name, email, phone, projectTypes, message, website, recaptchaToken } = parsed.data;
@@ -174,20 +181,24 @@ export async function POST(req: NextRequest) {
     // Check honeypot field
     if (website && website.length > 0) {
       console.warn(`Honeypot triggered from ${clientIP}`);
-      return NextResponse.json(
+      const res = NextResponse.json(
         { ok: false, error: 'Bot detected' },
         { status: 400 },
       );
+      res.headers.set('Cache-Control', 'no-store');
+      return res;
     }
 
     // Verify reCAPTCHA
     const recaptchaValid = await verifyRecaptcha(recaptchaToken);
     if (!recaptchaValid) {
       console.warn(`reCAPTCHA verification failed from ${clientIP}`);
-      return NextResponse.json(
+      const res = NextResponse.json(
         { ok: false, error: 'reCAPTCHA verification failed' },
         { status: 400 },
       );
+      res.headers.set('Cache-Control', 'no-store');
+      return res;
     }
 
     // Configure email transporter with security settings
@@ -227,11 +238,13 @@ export async function POST(req: NextRequest) {
 
     console.log(`Contact form submitted successfully from ${clientIP}: ${info.messageId}`);
     
-    return NextResponse.json({ 
+    const res = NextResponse.json({ 
       ok: true,
       message: 'Bericht succesvol verzonden',
       messageId: info.messageId
     });
+    res.headers.set('Cache-Control', 'no-store');
+    return res;
     
   } catch (error) {
     console.error('Error sending contact email:', error);
@@ -241,9 +254,11 @@ export async function POST(req: NextRequest) {
       (process.env.NODE_ENV === 'development' ? error.message : 'Internal server error') :
       'Unknown error occurred';
     
-    return NextResponse.json(
+    const res = NextResponse.json(
       { ok: false, error: 'Failed to send message', details: errorMessage },
       { status: 500 },
     );
+    res.headers.set('Cache-Control', 'no-store');
+    return res;
   }
 }

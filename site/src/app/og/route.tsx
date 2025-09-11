@@ -3,6 +3,7 @@ import { ImageResponse } from 'next/og';
 import { siteConfig } from '@/config/site.config';
 
 export const runtime = 'edge';
+export const preferredRegion = ['ams1', 'fra1'];
 
 export async function GET() {
   const desc = siteConfig.description;
