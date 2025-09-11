@@ -8,6 +8,9 @@ const withBundleAnalyzer = nextBundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Disable powered by header for security
+  poweredByHeader: false,
+  
   // Enable React 18 features
   experimental: {
     optimizePackageImports: ['@react-three/fiber', '@react-three/drei', 'three'],
@@ -80,6 +83,13 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Immutable caching for static assets by extension
+        source: '/:all*(svg|jpg|jpeg|png|webp|avif|gif|ico|css|js|mjs|woff|woff2|ttf|eot)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
         source: '/:path*',
         headers: [
           // Enhanced HSTS with preload
@@ -88,11 +98,13 @@ const nextConfig = {
             value: 'max-age=63072000; includeSubDomains; preload',
           },
           // Frame protection
-          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           // Content type protection
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           // Enhanced referrer policy
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          // Permissions policy
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
           // DNS prefetch control
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
           // XSS Protection (legacy but still useful)
