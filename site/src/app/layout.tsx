@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { siteConfig } from '@/config/site.config';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -228,6 +229,7 @@ export default function RootLayout({
           src="https://plausible.io/js/script.js"
         />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
