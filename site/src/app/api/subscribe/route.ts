@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
-export const preferredRegion = ['ams1', 'fra1'];
+export const preferredRegion = ['fra1', 'bru1'];
 
 const subscribeSchema = z.object({
   email: z.string().email('Ongeldig e-mailadres.'),

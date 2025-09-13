@@ -6,7 +6,7 @@ import DOMPurify from 'isomorphic-dompurify';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
-export const preferredRegion = ['ams1', 'fra1'];
+export const preferredRegion = ['fra1', 'bru1'];
 
 // Enhanced validation schema with security considerations
 const contactSchema = z.object({
