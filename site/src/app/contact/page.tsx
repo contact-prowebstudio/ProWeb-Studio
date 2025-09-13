@@ -45,8 +45,7 @@ export default function ContactPage() {
             <strong>Afspraak plannen:</strong> direct via onze agenda.
           </li>
           <li>
-            <strong>E‑mail/telefoon:</strong> contact@prowebstudio.nl — +31 6
-            4282 7860.
+            <strong>E‑mail/telefoon:</strong> contact@prowebstudio.nl — +31686412430.
           </li>
         </ul>
         <h2>Wat gebeurt er daarna?</h2>
