@@ -1,0 +1,200 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Ga naar hoofdinhoud" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic:
+      - link "ProWeb Studio Homepage" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "ProWeb Studio Logo" [ref=e7] [cursor=pointer]
+      - button "Toggle menu" [ref=e8] [cursor=pointer]
+  - main [ref=e12]:
+    - main [ref=e13]:
+      - region "Hero" [ref=e14]:
+        - img "Kosmische nevel achtergrond voor webontwikkeling en 3D ervaringen" [ref=e15]
+        - generic [ref=e20]:
+          - heading "Laat een website maken die indruk maakt. En converteert." [level=1] [ref=e21]
+          - paragraph [ref=e22]: Wij transformeren uw idee tot een razendsnelle, interactieve ervaring — van corporate sites tot meeslepende 3D-werelden die uw bezoekers boeien en uw bedrijf laten groeien.
+          - generic [ref=e23]:
+            - link "Start uw project" [ref=e24] [cursor=pointer]:
+              - /url: /contact
+            - link "Ontdek onze werkwijze →" [ref=e25] [cursor=pointer]:
+              - /url: /werkwijze
+          - paragraph [ref=e26]: Vertrouwd door founders, misb en scale-ups die vooruit willen.
+      - region "Cases" [ref=e27]:
+        - generic [ref=e28]:
+          - heading "Meetbare Impact, Elke Keer Weer." [level=2] [ref=e29]
+          - paragraph [ref=e30]: We bouwen niet zomaar websites — we leveren digitale groeimotoren die presteren.
+          - generic [ref=e31]:
+            - article [ref=e32]:
+              - generic [ref=e34]:
+                - heading "Fundament voor Groei" [level=3] [ref=e35]
+                - paragraph [ref=e36]: Razendsnelle Next.js Websites
+                - paragraph [ref=e37]: Wij bouwen op maat gemaakte, veilige en SEO-geoptimaliseerde websites die de kern van uw digitale aanwezigheid vormen en klaar zijn voor de toekomst.
+            - article [ref=e38]:
+              - generic [ref=e40]:
+                - heading "Meeslepende 3D Ervaringen" [level=3] [ref=e41]
+                - paragraph [ref=e42]: Interactieve WebGL & R3F
+                - paragraph [ref=e43]: Transformeer uw merk met unieke 3D-productvisualisaties en interactieve ervaringen die bezoekers boeien en een onvergetelijke indruk achterlaten.
+            - article [ref=e44]:
+              - generic [ref=e46]:
+                - heading "Complete E-commerce Oplossingen" [level=3] [ref=e47]
+                - paragraph [ref=e48]: Conversiegerichte Webshops
+                - paragraph [ref=e49]: Van ontwerp tot implementatie, wij creëren krachtige webshops die niet alleen prachtig zijn, maar ook ontworpen om uw online verkoop te maximaliseren.
+      - region "Process" [ref=e50]:
+        - generic [ref=e51]:
+          - heading "Van Visie naar Virtuoze Uitvoering" [level=2] [ref=e52]
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - generic [ref=e55]: 🎯
+              - heading "Strategie" [level=3] [ref=e56]
+              - paragraph [ref=e57]: Deep-dive in uw doelen, markt en gebruikers. We vertalen ambities naar een technisch stappenplan.
+            - generic [ref=e58]:
+              - generic [ref=e59]: ✨
+              - heading "Design" [level=3] [ref=e60]
+              - paragraph [ref=e61]: Van wireframes tot pixel-perfect designs. UI/UX die converteert én uw merk versterkt.
+            - generic [ref=e62]:
+              - generic [ref=e63]: 🚀
+              - heading "Build" [level=3] [ref=e64]
+              - paragraph [ref=e65]: Clean code, moderne stack, 100% maatwerk. Gebouwd voor snelheid, schaal en toekomst.
+            - generic [ref=e66]:
+              - generic [ref=e67]: 📈
+              - heading "Growth" [level=3] [ref=e68]
+              - paragraph [ref=e69]: Continue optimalisatie op basis van data. A/B testing, SEO, en conversion rate optimization.
+      - region "3D Technology" [ref=e70]:
+        - generic [ref=e73]:
+          - heading "De Toekomst is 3D. Wij Bouwen Die Vandaag." [level=2] [ref=e74]
+          - paragraph [ref=e75]: Transformeer uw producten in interactieve ervaringen. Van configurators tot virtuele showrooms — wij pushen de grenzen van het web.
+          - list [ref=e76]:
+            - listitem [ref=e77]:
+              - generic [ref=e78]: →
+              - generic [ref=e79]:
+                - strong [ref=e80]: "Real-time 3D Rendering:"
+                - text: Vloeiende 60+ FPS experiences op elk device
+            - listitem [ref=e81]:
+              - generic [ref=e82]: →
+              - generic [ref=e83]:
+                - strong [ref=e84]: "WebGL & Three.js:"
+                - text: Cutting-edge tech, maximale browser support
+            - listitem [ref=e85]:
+              - generic [ref=e86]: →
+              - generic [ref=e87]:
+                - strong [ref=e88]: "Performance First:"
+                - text: Geoptimaliseerd voor mobile en desktop
+          - link "Bekijk live demos →" [ref=e89] [cursor=pointer]:
+            - /url: /speeltuin
+            - text: Bekijk live demos
+            - generic [ref=e90] [cursor=pointer]: →
+      - region "Call to action" [ref=e95]:
+        - generic [ref=e96]:
+          - heading "Klaar om de Sprong te Maken?" [level=2] [ref=e97]
+          - paragraph [ref=e98]: Of u nu een startup bent die wil opschalen, of een enterprise die digitaal wil transformeren — wij zijn er om uw visie werkelijkheid te maken.
+          - generic [ref=e99]:
+            - link "Plan een strategiesessie" [ref=e100] [cursor=pointer]:
+              - /url: /contact
+            - link "Bekijk onze diensten" [ref=e101] [cursor=pointer]:
+              - /url: /diensten
+      - generic [ref=e102]:
+        - heading "Professionele Website Laten Maken in Nederland" [level=1] [ref=e103]
+        - paragraph [ref=e104]: Bij ProWeb Studio bouwen we resultaatgerichte websites die uw bedrijf laten groeien. Van snelle corporate websites voor MKB en startups tot meeslepende 3D-ervaringen die uw merk onderscheiden – wij leveren maatwerk oplossingen die converteren. Onze websites scoren hoog in Google, laden razendsnel en zijn gebouwd voor toekomstige groei.
+        - heading "Waarom Kiezen voor ProWeb Studio?" [level=2] [ref=e105]
+        - list [ref=e106]:
+          - listitem [ref=e107]:
+            - strong [ref=e108]: "Snelheid & Core Web Vitals:"
+            - text: Wij zorgen voor perfecte Google-scores met Core Web Vitals optimalisatie, waardoor uw website niet alleen snel laadt maar ook een uitstekende gebruikerservaring biedt die bezoekers behoudt.
+          - listitem [ref=e109]:
+            - strong [ref=e110]: "Uniek & Creatief Design:"
+            - text: Van professionele UI/UX design tot unieke 3D-interacties en WebGL-ervaringen – wij creëren websites die opvallen en uw merkverhaal krachtig overbrengen.
+          - listitem [ref=e111]:
+            - strong [ref=e112]: "SEO-First Architectuur:"
+            - text: Elke website bouwen we vanaf de grond op met technische SEO in gedachten, zodat u een hogere ranking in Google behaalt en meer organisch verkeer genereert.
+          - listitem [ref=e113]:
+            - strong [ref=e114]: "Maatwerk & Schaalbaarheid:"
+            - text: Geen templates of standaardoplossingen – wij ontwikkelen volledig op maat met toekomstbestendige technologie die meegroeit met uw ambities en bedrijfsdoelen.
+        - 'heading "Onze Diensten: Van Strategie tot Groei" [level=2] [ref=e115]'
+        - paragraph [ref=e116]: Als uw volledige digitale partner begeleiden wij u door het complete proces van website ontwikkeling. We starten met een grondige strategieanalyse, vertalen deze naar gebruiksvriendelijk design, bouwen met de nieuwste technologieën en zorgen voor continue groei door data-gedreven optimalisatie. Of u nu een startup bent die online wil groeien of een gevestigd bedrijf dat zijn digitale aanwezigheid wil vernieuwen – wij maken van uw website een krachtige groeimachine.
+        - heading "Veelgestelde Vragen (FAQ)" [level=2] [ref=e117]
+        - paragraph [ref=e118]:
+          - strong [ref=e119]: Wat kost een website laten maken?
+          - text: De kosten variëren afhankelijk van uw specifieke wensen en functionaliteiten. We werken met transparante, vaste prijzen per project en bieden altijd een vrijblijvende offerte na een uitgebreide intake.
+        - paragraph [ref=e120]:
+          - strong [ref=e121]: Hoe lang duurt het proces van website bouwen?
+          - text: Een professionele website ontwikkelen duurt gemiddeld 4-8 weken, afhankelijk van de complexiteit en beschikbaarheid van content. Tijdens het project houden we u continu op de hoogte van de voortgang.
+        - paragraph [ref=e122]:
+          - strong [ref=e123]: Zijn jullie websites zoekmachinevriendelijk?
+          - text: Absoluut! Alle websites bouwen we met SEO-first architectuur, inclusief technische optimalisatie, snelheidsoptimalisatie en schema markup voor betere zichtbaarheid in Google.
+        - paragraph [ref=e124]:
+          - strong [ref=e125]: Kunnen jullie ook mijn bestaande website optimaliseren?
+          - text: Ja, we voeren uitgebreide technische audits uit en ontwikkelen een op maat gemaakt verbeterplan om uw huidige website sneller, veiliger en conversiegerichter te maken.
+        - paragraph [ref=e126]:
+          - link "Plan een kennismaking" [ref=e127] [cursor=pointer]:
+            - /url: /contact
+      - heading "Structured data" [level=2] [ref=e129]
+  - contentinfo [ref=e130]:
+    - generic [ref=e131]:
+      - generic [ref=e132]:
+        - generic [ref=e133]:
+          - img "ProWeb Studio Logo" [ref=e136]
+          - paragraph [ref=e137]: Digitale innovatie met kosmische impact
+        - generic [ref=e138]:
+          - heading "Navigatie" [level=4] [ref=e139]
+          - navigation "Footer navigation" [ref=e140]:
+            - list [ref=e141]:
+              - listitem [ref=e142]:
+                - link "Home" [ref=e143] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e144]:
+                - link "Diensten" [ref=e145] [cursor=pointer]:
+                  - /url: /diensten
+              - listitem [ref=e146]:
+                - link "Over Ons" [ref=e147] [cursor=pointer]:
+                  - /url: /over-ons
+              - listitem [ref=e148]:
+                - link "Speeltuin" [ref=e149] [cursor=pointer]:
+                  - /url: /speeltuin
+              - listitem [ref=e150]:
+                - link "Werkwijze" [ref=e151] [cursor=pointer]:
+                  - /url: /werkwijze
+              - listitem [ref=e152]:
+                - link "Contact" [ref=e153] [cursor=pointer]:
+                  - /url: /contact
+        - generic [ref=e154]:
+          - heading "Contact" [level=4] [ref=e155]
+          - list [ref=e156]:
+            - listitem [ref=e157]:
+              - link "contact@prowebstudio.nl" [ref=e158] [cursor=pointer]:
+                - /url: mailto:contact@prowebstudio.nl
+            - listitem [ref=e159]:
+              - link "+31686412430" [ref=e160] [cursor=pointer]:
+                - /url: tel:+31686412430
+        - generic [ref=e161]:
+          - heading "Digitale Innovatie in je Inbox" [level=4] [ref=e162]
+          - paragraph [ref=e163]: Blijf op de hoogte van de nieuwste trends in webontwikkeling, 3D-technologie en digitale transformatie. Exclusieve inzichten van onze experts.
+          - generic [ref=e164]:
+            - generic [ref=e165]:
+              - generic [ref=e166]: E-mailadres voor nieuwsbrief
+              - textbox "E-mailadres voor nieuwsbrief" [ref=e167]
+              - button "Inschrijven" [ref=e168] [cursor=pointer]
+            - paragraph [ref=e169]: Geen spam, alleen waardevolle content. Uitschrijven kan altijd.
+      - generic [ref=e170]:
+        - link "Privacybeleid" [ref=e171] [cursor=pointer]:
+          - /url: /privacy
+        - generic [ref=e172]: •
+        - link "Algemene voorwaarden" [ref=e173] [cursor=pointer]:
+          - /url: /voorwaarden
+        - generic [ref=e174]: •
+        - link "Sitemap" [ref=e175] [cursor=pointer]:
+          - /url: /sitemap.xml
+        - generic [ref=e176]: •
+        - link "Contact per e-mail" [ref=e177] [cursor=pointer]:
+          - /url: mailto:contact@prowebstudio.nl
+          - text: Contact
+        - generic [ref=e178]: •
+        - generic [ref=e179]: "KVK: 93769865"
+        - generic [ref=e180]: •
+        - generic [ref=e181]: "BTW: NL005041113B60"
+      - paragraph [ref=e183]: © 2025 ProWeb Studio. Alle rechten voorbehouden.
+  - alert [ref=e184]
+```

@@ -835,6 +835,46 @@ export default function StudioAnwarScene({
   interactionHeat = 0,
   autoRotate = false,
 }: StudioAnwarSceneProps) {
+  const [isMobile, setIsMobile] = React.useState(false);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
+  React.useEffect(() => {
+    // Detect mobile viewport
+    setIsMobile(window.innerWidth < 768);
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // WebGL context event handlers
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      console.warn('WebGL context lost, preventing default behavior');
+    };
+
+    const handleContextRestored = () => {
+      console.info('WebGL context restored, reinitializing...');
+      // Force re-render by triggering a resize event
+      window.dispatchEvent(new Event('resize'));
+    };
+
+    canvas.addEventListener('webglcontextlost', handleContextLost);
+    canvas.addEventListener('webglcontextrestored', handleContextRestored);
+
+    return () => {
+      canvas.removeEventListener('webglcontextlost', handleContextLost);
+      canvas.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
+  }, []);
+
   return (
     <div
       style={{
@@ -844,17 +884,28 @@ export default function StudioAnwarScene({
         minHeight: 600,
         background: `radial-gradient(ellipse at center, ${PALETTES[palette].bg}00 0%, ${PALETTES[palette].bg} 100%)`,
       }}
+      className="z-0"
     >
       <Canvas
+        ref={canvasRef}
         gl={{
-          antialias: true,
+          antialias: !isMobile, // Disable antialias on mobile
           toneMapping: THREE.ACESFilmicToneMapping,
           outputColorSpace: THREE.SRGBColorSpace,
           powerPreference: 'high-performance',
+          preserveDrawingBuffer: false,
+          stencil: false,
+          depth: true,
         }}
-        dpr={[1, 2]}
+        dpr={isMobile ? [1, 1.5] : [1, 2]} // Clamp DPR on mobile
         camera={{ position: [5, 3, 8], fov: 50, near: 0.1, far: 100 }}
-        shadows
+        shadows={!isMobile} // Disable shadows on mobile
+        onCreated={({ gl }) => {
+          // Clamp pixel ratio for mobile stability
+          if (isMobile) {
+            gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+          }
+        }}
       >
         <React.Suspense fallback={null}>
           <SceneContent

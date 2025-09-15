@@ -18,6 +18,9 @@
     "lint-staged": "lint-staged",
     "test": "vitest",
     "test:ui": "vitest --ui",
+    "test:e2e": "playwright test",
+    "test:e2e:basic": "playwright test --config=playwright-basic.config.ts tests/mobile-basic.spec.ts",
+    "test:e2e:ui": "playwright test --ui",
     "analyze": "ANALYZE=true next build",
     "build:analyze": "ANALYZE=true next build",
     "build:prod": "NODE_ENV=production next build",
@@ -56,6 +59,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.5.2",
+    "@playwright/test": "^1.55.0",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",

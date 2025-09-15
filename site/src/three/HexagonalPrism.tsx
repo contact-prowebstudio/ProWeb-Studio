@@ -1,7 +1,8 @@
 'use client';
 import * as THREE from 'three';
-import { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { useFrame, Canvas } from '@react-three/fiber';
+import { useThreeDisposal } from '@/hooks/useThreeUtils';
 
 function useReducedMotion() {
   if (typeof window === 'undefined') return false;
@@ -28,14 +29,13 @@ function AnimatedDodecahedron() {
     const mat = new THREE.MeshPhysicalMaterial({
       color: '#8b5cf6',
       metalness: 0.95,
-      roughness: 0.05,
-      clearcoat: 0.9,
-      clearcoatRoughness: 0.1,
-      reflectivity: 0.95,
-      envMapIntensity: 2.5,
+      roughness: 0.1,
+      clearcoat: 0.8,
+      clearcoatRoughness: 0.05,
+      reflectivity: 0.9,
       transparent: true,
-      opacity: 0.85,
-      side: THREE.DoubleSide,
+      opacity: 0.95,
+      envMapIntensity: 2.5,
     });
 
     // Inner core material
@@ -57,6 +57,9 @@ function AnimatedDodecahedron() {
       innerMaterial: innerMat,
     };
   }, []);
+
+  // Dispose resources on unmount
+  useThreeDisposal([geometry, material, innerGeometry, innerMaterial]);
 
   useFrame((state, delta) => {
     if (!meshRef.current || !innerMeshRef.current) return;
@@ -260,13 +263,68 @@ function GeometricParticles() {
 
 export default function HexagonalPrism() {
   const reduced = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    // Detect mobile viewport
+    setIsMobile(window.innerWidth < 768);
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // WebGL context event handlers
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      console.warn('WebGL context lost, preventing default behavior');
+    };
+
+    const handleContextRestored = () => {
+      console.info('WebGL context restored, reinitializing...');
+      // Force re-render by triggering a resize event
+      window.dispatchEvent(new Event('resize'));
+    };
+
+    canvas.addEventListener('webglcontextlost', handleContextLost);
+    canvas.addEventListener('webglcontextrestored', handleContextRestored);
+
+    return () => {
+      canvas.removeEventListener('webglcontextlost', handleContextLost);
+      canvas.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
+  }, []);
 
   return (
-    <Canvas
-      dpr={[1, 2]}
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <Canvas
+        ref={canvasRef}
+        dpr={isMobile ? [1, 1.5] : [1, 2]} // Clamp DPR on mobile
       camera={{ fov: 45, position: [0, 0, 9] }}
-      gl={{ alpha: true, antialias: true }}
-      onCreated={({ gl }) => gl.setClearAlpha(0)}
+      gl={{ 
+        alpha: true, 
+        antialias: !isMobile, // Disable antialias on mobile
+        powerPreference: 'high-performance',
+        preserveDrawingBuffer: false,
+        stencil: false,
+        depth: true,
+      }}
+      onCreated={({ gl }) => {
+        gl.setClearAlpha(0);
+        
+        // Clamp pixel ratio for mobile stability
+        if (isMobile) {
+          gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        }
+      }}
       style={{ background: 'transparent' }}
     >
       <group scale={0.85}>
@@ -318,5 +376,6 @@ export default function HexagonalPrism() {
         />
       </group>
     </Canvas>
+    </div>
   );
 }

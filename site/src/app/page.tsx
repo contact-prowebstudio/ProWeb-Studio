@@ -80,7 +80,7 @@ export default function HomePage() {
       {/* HERO SECTION */}
       <section
         aria-label="Hero"
-        className="homepage-hero relative min-h-[92vh] grid place-items-center overflow-hidden"
+        className="homepage-hero relative min-h-[92vh] sm:m-hero grid place-items-center overflow-hidden"
       >
         {/* Background cosmic image */}
         <Image
@@ -102,11 +102,11 @@ export default function HomePage() {
         </div>
 
         {/* Hero content with enhanced typography */}
-        <div className="relative z-10 text-center px-6 pt-24 pb-16 max-w-7xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-extrabold text-shadow-sharp tracking-tight leading-tight mb-8 motion-safe:animate-fade-in">
+        <div className="relative z-10 text-center px-4 sm:px-5 pt-24 pb-16 max-w-7xl mx-auto sm:m-stack-lg">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-shadow-sharp tracking-tight leading-tight mb-8 motion-safe:animate-fade-in sm:m-heading sm:leading-tight">
             Laat een website maken die indruk maakt. En converteert.
           </h1>
-          <p className="text-xl md:text-2xl text-cyan-100 mb-12 max-w-4xl mx-auto motion-safe:animate-slide-up">
+          <p className="text-xl md:text-2xl text-cyan-100 mb-12 max-w-4xl mx-auto max-w-prose motion-safe:animate-slide-up sm:m-body">
             Wij transformeren uw idee tot een razendsnelle, interactieve
             ervaring — van corporate sites tot meeslepende 3D-werelden die uw
             bezoekers boeien en uw bedrijf laten groeien.

@@ -8,6 +8,11 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
+const AboutScene = dynamicImport(() => import('@/three/AboutScene'), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-gradient-to-br from-cosmic-900/50 to-cosmic-800/30 animate-pulse" />,
+});
+
 export const metadata: Metadata = {
   title: 'Over Ons – Architecten van de Digitale Toekomst | ProWeb Studio',
   description: 'Ontdek de visie en missie van ProWeb Studio. Wij combineren geavanceerde technologie met creatief design om de digitale grenzen te verleggen voor Nederlandse bedrijven.',
@@ -24,61 +29,88 @@ export const metadata: Metadata = {
   },
 };
 
-const FlowingRibbons = dynamicImport(() => import('@/three/FlowingRibbons'), {
-  ssr: false,
-  loading: () => <div className="h-[400px] w-full bg-cosmic-900/50 animate-pulse rounded-lg" />,
-});
-
-export default function OverOnsPage() {
+export default function AboutPage() {
   return (
-    <main>
-      <section className="relative py-24 px-6 text-center overflow-hidden">
-        <div className="relative z-10 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 glow-text">
-            Architecten van de Digitale Toekomst
+    <main data-page="about" className="min-h-screen">
+      {/* HERO */}
+      <section
+        id="about-hero"
+        className="
+          relative
+          min-h-[70dvh] md:min-h-[76vh] lg:min-h-[80vh]
+          flex flex-col items-center justify-center text-center
+        "
+      >
+        {/* 3D Background Animation */}
+        <div className="absolute top-0 left-0 w-full h-full z-[-1]">
+          <Suspense fallback={<div className="absolute inset-0 bg-gradient-to-br from-cosmic-900/50 to-cosmic-800/30 animate-pulse" />}>
+            <ErrorBoundary>
+              <AboutScene />
+            </ErrorBoundary>
+          </Suspense>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6">
+          <h1
+            className="
+              text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight
+              bg-gradient-to-r from-cyan-400 via-white to-magenta-400 bg-clip-text text-transparent
+              drop-shadow-2xl
+            "
+          >
+            Architecten van de Digitale <br className="hidden md:block" />
+            Toekomst
           </h1>
-          <p className="text-xl text-cyan-400 max-w-3xl mx-auto">
-            Wij zijn ProWeb Studio. We zijn een team van strategen, ontwerpers en ontwikkelaars met een gedeelde passie: het bouwen van buitengewone digitale ervaringen.
+
+          <p
+            className="
+              mt-6 text-center text-cyan-300/90
+              text-base md:text-lg lg:text-xl
+              max-w-3xl md:max-w-4xl mx-auto leading-relaxed
+            "
+          >
+            Wij zijn ProWeb Studio. We zijn een team van strategen, ontwerpers en
+            ontwikkelaars met een gedeelde passie: het bouwen van buitengewone
+            digitale ervaringen.
           </p>
         </div>
       </section>
 
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div className="prose prose-invert max-w-none">
-            <h2>Onze Filosofie: Voorbij het Traditionele</h2>
-            <p>
-              Natuurlijk kunnen we een standaard website bouwen in een week. Maar onze passie ligt niet in het herhalen van wat al bestaat. Wij geloven in vooruitgang. In het verleggen van grenzen.
-            </p>
-            <p>
-              Waarom vasthouden aan traditionele oplossingen als de technologie van morgen vandaag al binnen handbereik is? ProWeb Studio is opgericht om die toekomst te bouwen. Wij kiezen bewust voor de meest geavanceerde, performante en meeslepende technologieën, niet omdat het kan, maar omdat het uw merk de voorsprong geeft die het verdient.
-            </p>
-          </div>
-          <div className="h-[400px] rounded-2xl overflow-hidden border border-cosmic-700/60 bg-cosmic-800/20 relative">
-            <Suspense fallback={<div className="h-full w-full bg-cosmic-900/50 animate-pulse" />}>
-              <ErrorBoundary>
-                <FlowingRibbons />
-              </ErrorBoundary>
-            </Suspense>
+      {/* FILOSOFIE SECTION: Centered content below hero */}
+      <section className="mt-24">
+        <div className="container mx-auto px-4 sm:px-6 flex justify-center">
+          <div className="max-w-[800px] text-center">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white mb-6">
+              Onze Filosofie: Voorbij het Traditionele
+            </h2>
+            
+            <div className="space-y-4 text-slate-300 leading-relaxed text-base md:text-lg">
+              <p>
+                Natuurlijk kunnen we een standaard website bouwen in een week. Maar onze passie ligt niet in het herhalen van wat al bestaat. Wij geloven in vooruitgang. In het verleggen van grenzen.
+              </p>
+              <p>
+                Waarom vasthouden aan traditionele oplossingen als de technologie van morgen vandaag al binnen handbereik is? ProWeb Studio is opgericht om die toekomst te bouwen. Wij kiezen bewust voor de meest geavanceerde, performante en meeslepende technologieën, niet omdat het kan, maar omdat het uw merk de voorsprong geeft die het verdient.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-6 bg-cosmic-800/20">
+      <section className="mt-16 md:mt-24 px-4 sm:px-6 py-16 bg-cosmic-800/20">
         <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">Onze Missie</h2>
-            <p className="text-lg text-gray-300 leading-relaxed max-w-3xl mx-auto">
-              Onze missie is het empoweren van Nederlandse bedrijven door het creëren van digitale ervaringen die niet alleen technisch superieur zijn, maar ook een diepe, blijvende indruk achterlaten. We transformeren complexe ideeën in intuïtieve, snelle en meeslepende websites die groei stimuleren.
-            </p>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-white">Onze Missie</h2>
+          <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
+            Onze missie is het empoweren van Nederlandse bedrijven door het creëren van digitale ervaringen die niet alleen technisch superieur zijn, maar ook een diepe, blijvende indruk achterlaten. We transformeren complexe ideeën in intuïtieve, snelle en meeslepende websites die groei stimuleren.
+          </p>
         </div>
       </section>
 
-      <section className="py-24 px-6">
+      <section className="mt-16 md:mt-24 px-4 sm:px-6 py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-8 leading-tight">
+          <h2 className="text-3xl md:text-5xl leading-tight font-bold mb-8 text-white">
             Klaar om samen te bouwen?
           </h2>
-          <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed">
             Uw visie verdient de beste technologie en een team dat uw ambitie deelt. Laten we het gesprek starten.
           </p>
           <Link
