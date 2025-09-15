@@ -21,7 +21,8 @@ export default function FacetedSolid({
 
   const { geometry, material } = useMemo(() => {
     // Create a more complex geometry with subdivision
-    const baseGeom = new THREE.IcosahedronGeometry(1.2, 1).toNonIndexed();
+    const originalGeom = new THREE.IcosahedronGeometry(1.2, 1);
+    const baseGeom = originalGeom.index ? originalGeom.toNonIndexed() : originalGeom;
     const pos = baseGeom.getAttribute('position') as THREE.BufferAttribute;
     const v = new THREE.Vector3();
 

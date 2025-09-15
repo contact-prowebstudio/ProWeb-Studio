@@ -4,6 +4,7 @@ import { MeshTransmissionMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useThreeDisposal } from '@/hooks/useThreeUtils';
 
 type CrystalProps = {
   tint?: string;
@@ -20,6 +21,9 @@ export function CrystalLogo({
 }: CrystalProps) {
   const ref = useRef<THREE.Mesh>(null!);
   const geom = useMemo(() => new THREE.IcosahedronGeometry(1.1, 1), []);
+
+  // Dispose geometry on unmount
+  useThreeDisposal([geom]);
 
   useFrame((_, delta) => {
     if (!ref.current) return;

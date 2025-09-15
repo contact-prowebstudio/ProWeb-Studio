@@ -1,0 +1,95 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Ga naar hoofdinhoud" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic:
+      - link "ProWeb Studio Homepage" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "ProWeb Studio Logo" [ref=e7] [cursor=pointer]
+      - button "Toggle menu" [ref=e8] [cursor=pointer]
+  - main [ref=e12]:
+    - main [ref=e13]:
+      - generic [ref=e15]:
+        - heading "Architecten van de Digitale Toekomst" [level=1] [ref=e16]
+        - paragraph [ref=e17]: "Wij zijn ProWeb Studio. We zijn een team van strategen, ontwerpers en ontwikkelaars met een gedeelde passie: het bouwen van buitengewone digitale ervaringen."
+      - generic [ref=e20]:
+        - 'heading "Onze Filosofie: Voorbij het Traditionele" [level=2] [ref=e21]'
+        - paragraph [ref=e22]: Natuurlijk kunnen we een standaard website bouwen in een week. Maar onze passie ligt niet in het herhalen van wat al bestaat. Wij geloven in vooruitgang. In het verleggen van grenzen.
+        - paragraph [ref=e23]: Waarom vasthouden aan traditionele oplossingen als de technologie van morgen vandaag al binnen handbereik is? ProWeb Studio is opgericht om die toekomst te bouwen. Wij kiezen bewust voor de meest geavanceerde, performante en meeslepende technologieën, niet omdat het kan, maar omdat het uw merk de voorsprong geeft die het verdient.
+      - generic [ref=e29]:
+        - heading "Onze Missie" [level=2] [ref=e30]
+        - paragraph [ref=e31]: Onze missie is het empoweren van Nederlandse bedrijven door het creëren van digitale ervaringen die niet alleen technisch superieur zijn, maar ook een diepe, blijvende indruk achterlaten. We transformeren complexe ideeën in intuïtieve, snelle en meeslepende websites die groei stimuleren.
+      - generic [ref=e33]:
+        - heading "Klaar om samen te bouwen?" [level=2] [ref=e34]
+        - paragraph [ref=e35]: Uw visie verdient de beste technologie en een team dat uw ambitie deelt. Laten we het gesprek starten.
+        - link "Neem Contact Op" [ref=e36] [cursor=pointer]:
+          - /url: /contact
+  - contentinfo [ref=e37]:
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - img "ProWeb Studio Logo" [ref=e43]
+          - paragraph [ref=e44]: Digitale innovatie met kosmische impact
+        - generic [ref=e45]:
+          - heading "Navigatie" [level=4] [ref=e46]
+          - navigation "Footer navigation" [ref=e47]:
+            - list [ref=e48]:
+              - listitem [ref=e49]:
+                - link "Home" [ref=e50] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e51]:
+                - link "Diensten" [ref=e52] [cursor=pointer]:
+                  - /url: /diensten
+              - listitem [ref=e53]:
+                - link "Over Ons" [ref=e54] [cursor=pointer]:
+                  - /url: /over-ons
+              - listitem [ref=e55]:
+                - link "Speeltuin" [ref=e56] [cursor=pointer]:
+                  - /url: /speeltuin
+              - listitem [ref=e57]:
+                - link "Werkwijze" [ref=e58] [cursor=pointer]:
+                  - /url: /werkwijze
+              - listitem [ref=e59]:
+                - link "Contact" [ref=e60] [cursor=pointer]:
+                  - /url: /contact
+        - generic [ref=e61]:
+          - heading "Contact" [level=4] [ref=e62]
+          - list [ref=e63]:
+            - listitem [ref=e64]:
+              - link "contact@prowebstudio.nl" [ref=e65] [cursor=pointer]:
+                - /url: mailto:contact@prowebstudio.nl
+            - listitem [ref=e66]:
+              - link "+31686412430" [ref=e67] [cursor=pointer]:
+                - /url: tel:+31686412430
+        - generic [ref=e68]:
+          - heading "Digitale Innovatie in je Inbox" [level=4] [ref=e69]
+          - paragraph [ref=e70]: Blijf op de hoogte van de nieuwste trends in webontwikkeling, 3D-technologie en digitale transformatie. Exclusieve inzichten van onze experts.
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - generic [ref=e73]: E-mailadres voor nieuwsbrief
+              - textbox "E-mailadres voor nieuwsbrief" [ref=e74]
+              - button "Inschrijven" [ref=e75] [cursor=pointer]
+            - paragraph [ref=e76]: Geen spam, alleen waardevolle content. Uitschrijven kan altijd.
+      - generic [ref=e77]:
+        - link "Privacybeleid" [ref=e78] [cursor=pointer]:
+          - /url: /privacy
+        - generic [ref=e79]: •
+        - link "Algemene voorwaarden" [ref=e80] [cursor=pointer]:
+          - /url: /voorwaarden
+        - generic [ref=e81]: •
+        - link "Sitemap" [ref=e82] [cursor=pointer]:
+          - /url: /sitemap.xml
+        - generic [ref=e83]: •
+        - link "Contact per e-mail" [ref=e84] [cursor=pointer]:
+          - /url: mailto:contact@prowebstudio.nl
+          - text: Contact
+        - generic [ref=e85]: •
+        - generic [ref=e86]: "KVK: 93769865"
+        - generic [ref=e87]: •
+        - generic [ref=e88]: "BTW: NL005041113B60"
+      - paragraph [ref=e90]: © 2025 ProWeb Studio. Alle rechten voorbehouden.
+  - alert [ref=e91]
+```

@@ -71,14 +71,14 @@ export default function SpeeltuinClient() {
   };
 
   return (
-    <main className="relative py-24 px-6">
+    <main className="relative py-24 px-4 sm:px-5 sm:m-hero">
       <div className="max-w-6xl mx-auto">
         {/* Hero Section */}
-        <section className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-8 glow-text leading-tight max-w-5xl mx-auto animate-fade-in">
+        <section className="text-center mb-16 sm:m-stack-lg">
+          <h1 className="text-4xl md:text-6xl font-bold mb-8 glow-text leading-tight max-w-5xl mx-auto animate-fade-in sm:m-heading sm:leading-tight">
             Onze Expertise in Actie
           </h1>
-          <p className="text-xl text-cyan-400 max-w-4xl mx-auto leading-relaxed animate-slide-up">
+          <p className="text-xl text-cyan-400 max-w-4xl max-w-prose mx-auto leading-relaxed animate-slide-up sm:m-subhead">
             Waarom u foto&apos;s laten zien als we de magie live kunnen
             demonstreren? Dit is geen portfolio; dit is onze interactieve
             tech-speeltuin. Hier heeft u de controle. Ervaar zelf de kracht van

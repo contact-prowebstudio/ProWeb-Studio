@@ -47,13 +47,13 @@ const steps = [
 export default function Werkwijze() {
   return (
     <>
-      <section className="py-20 px-6">
+      <section className="py-20 px-4 sm:px-5 sm:m-hero">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 glow-text">
+          <div className="text-center mb-12 sm:m-stack-lg">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 glow-text sm:m-heading sm:leading-tight">
               Werkwijze — website laten maken: van intake tot launch
             </h1>
-            <p className="text-xl text-cyan-400 max-w-2xl mx-auto">
+            <p className="text-xl text-cyan-400 max-w-2xl max-w-prose mx-auto sm:m-subhead">
               Een bewezen proces dat resultaat garandeert
             </p>
           </div>

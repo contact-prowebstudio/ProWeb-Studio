@@ -134,7 +134,7 @@ export default function Diensten() {
       <FAQSchema faqs={dienstenFaqs} />
 
       {/* Hero section with 3D elements */}
-      <section className="relative min-h-[70vh] overflow-hidden flex items-center">
+      <section className="relative stable-viewport-height sm:m-hero flex items-center">
         <Image
           src="/assets/nebula_services_background.png"
           alt="Nebula achtergrond met zwevende geometrische vormen"
@@ -150,16 +150,18 @@ export default function Diensten() {
           fallback={<div className="absolute inset-0 bg-cosmic-900/50" />}
         >
           <ErrorBoundary>
-            <ServicesPolyhedra />
+            <div className="absolute inset-0">
+              <ServicesPolyhedra />
+            </div>
           </ErrorBoundary>
         </Suspense>
 
         <div className="relative z-10 w-full">
-          <div className="max-w-6xl mx-auto px-6 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-8 glow-text leading-tight max-w-5xl mx-auto animate-fade-in">
+          <div className="max-w-6xl mx-auto px-4 sm:px-5 text-center sm:m-stack-lg">
+            <h1 className="text-4xl md:text-6xl font-bold mb-8 glow-text leading-tight max-w-5xl mx-auto animate-fade-in sm:m-heading sm:leading-tight">
               Meer dan Code. Oplossingen die Groeien.
             </h1>
-            <p className="text-xl text-cyan-400 max-w-4xl mx-auto leading-relaxed animate-slide-up">
+            <p className="text-xl text-cyan-400 max-w-4xl max-w-prose mx-auto leading-relaxed animate-slide-up sm:m-subhead">
               Elke dienst die we aanbieden is een samensmelting van strategie,
               creativiteit en technologische excellentie. We bouwen geen
               websites; we bouwen groeimotoren. Ontdek hoe onze expertise uw

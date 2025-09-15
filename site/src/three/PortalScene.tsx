@@ -4,6 +4,7 @@
 import * as THREE from 'three';
 import React, { useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useThreeDisposal } from '@/hooks/useThreeUtils';
 
 type Props = { scale?: number; effects?: boolean };
 
@@ -119,6 +120,9 @@ function Blade({
     [angle, width, innerR, outerR, c1, c2],
   );
 
+  // Dispose material on unmount
+  useThreeDisposal([mat]);
+
   useFrame((state) => {
     mat.uniforms.uTime.value = state.clock.elapsedTime;
   });
@@ -216,6 +220,9 @@ function StarSwarm({
       }),
     [reduced],
   );
+
+  // Dispose resources on unmount
+  useThreeDisposal([geom, mat]);
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
@@ -275,6 +282,10 @@ function EnergyRings() {
     });
     return m;
   }, []);
+
+  // Dispose material on unmount
+  useThreeDisposal([mat]);
+
   useFrame((_, dt) => (mat.uniforms.uTime.value += dt));
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]}>
@@ -318,6 +329,9 @@ function EnergyCore() {
     [],
   );
 
+  // Dispose material on unmount
+  useThreeDisposal([mat]);
+
   useFrame((s) => {
     mat.uniforms.uTime.value = s.clock.elapsedTime;
   });
@@ -333,13 +347,68 @@ function EnergyCore() {
 export default function PortalScene({ scale = 0.58, effects = true }: Props) {
   const reduced = useReducedMotion();
   const enableFx = effects && !reduced;
+  const [isMobile, setIsMobile] = React.useState(false);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
+  React.useEffect(() => {
+    // Detect mobile viewport
+    setIsMobile(window.innerWidth < 768);
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // WebGL context event handlers
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      console.warn('WebGL context lost, preventing default behavior');
+    };
+
+    const handleContextRestored = () => {
+      console.info('WebGL context restored, reinitializing...');
+      // Force re-render by triggering a resize event
+      window.dispatchEvent(new Event('resize'));
+    };
+
+    canvas.addEventListener('webglcontextlost', handleContextLost);
+    canvas.addEventListener('webglcontextrestored', handleContextRestored);
+
+    return () => {
+      canvas.removeEventListener('webglcontextlost', handleContextLost);
+      canvas.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
+  }, []);
 
   return (
-    <Canvas
-      dpr={[1, 2]}
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <Canvas
+        ref={canvasRef}
+        dpr={isMobile ? [1, 1.5] : [1, 2]} // Clamp DPR on mobile
       camera={{ fov: 45, position: [0, 0, 3.4] }}
-      gl={{ alpha: true, antialias: true }}
-      onCreated={({ gl }) => gl.setClearAlpha(0)} // خلفية شفافة تمامًا
+      gl={{ 
+        alpha: true, 
+        antialias: !isMobile, // Disable antialias on mobile
+        powerPreference: 'high-performance',
+        preserveDrawingBuffer: false,
+        stencil: false,
+        depth: true,
+      }}
+      onCreated={({ gl }) => {
+        gl.setClearAlpha(0); // خلفية شفافة تمامًا
+        
+        // Clamp pixel ratio for mobile stability
+        if (isMobile) {
+          gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        }
+      }}
       style={{ background: 'transparent' }}
     >
       <group scale={scale}>
@@ -352,5 +421,6 @@ export default function PortalScene({ scale = 0.58, effects = true }: Props) {
         <pointLight position={[0, 0, 3]} intensity={0.9} color={'#a5f3fc'} />
       </group>
     </Canvas>
+    </div>
   );
 }

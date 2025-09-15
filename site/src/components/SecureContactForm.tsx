@@ -270,7 +270,7 @@ export default function SecureContactForm() {
 
   return (
     <>
-      <section className="relative py-24 lg:py-32 px-6 min-h-[60vh] grid place-items-center overflow-hidden">
+      <section className="relative py-24 lg:py-32 px-4 sm:px-5 min-h-[60vh] sm:m-hero grid place-items-center overflow-hidden">
         <Image
           src="/assets/glowing_beacon_contact.png"
           alt="Lichtbaken dat de weg wijst — contact achtergrond"
@@ -281,16 +281,16 @@ export default function SecureContactForm() {
           className="object-cover object-center opacity-30 pointer-events-none"
         />
         <div className="relative z-10 w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <div className="space-y-8">
+          <div className="space-y-8 sm:m-stack-lg">
             <div className="space-y-4">
-              <h1 className="text-4xl lg:text-5xl font-bold text-white">
+              <h1 className="text-4xl lg:text-5xl font-bold text-white sm:m-heading sm:leading-tight">
                 Laten we jouw{' '}
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   digitale visie
                 </span>{' '}
                 realiseren
               </h1>
-              <p className="text-lg text-gray-300 leading-relaxed">
+              <p className="text-lg text-gray-300 leading-relaxed max-w-prose sm:m-body">
                 Klaar om jouw online aanwezigheid naar het volgende niveau te
                 tillen? Vertel ons over jouw project en ontdek hoe ProWeb
                 Studio jouw digitale doelen kan realiseren.

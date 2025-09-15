@@ -10,6 +10,8 @@ import Footer from '@/components/Footer';
 import CursorTrail from '@/components/CursorTrail';
 import LocalBusinessSchema from '@/components/LocalBusinessSchema';
 import SEOSchema from '@/components/SEOSchema';
+import MenuStateProvider from '@/components/MenuStateProvider';
+import ViewportHeightManager from '@/components/ViewportHeightManager';
 
 const inter = Inter({ subsets: ['latin', 'latin-ext'], display: 'swap' });
 
@@ -196,13 +198,16 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png" />
       </head>
       <body className={inter.className}>
-        <a href="#main" className="skip-to-content">
-          Ga naar hoofdinhoud
-        </a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
-        <CursorTrail />
+        <ViewportHeightManager />
+        <MenuStateProvider>
+          <a href="#main" className="skip-to-content">
+            Ga naar hoofdinhoud
+          </a>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+          <CursorTrail />
+        </MenuStateProvider>
 
         <LocalBusinessSchema
           kvkNumber={kvk}
