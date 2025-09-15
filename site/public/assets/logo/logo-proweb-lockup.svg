@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="160" viewBox="0 0 560 160" fill="none">
+  <!-- Consistent geometry: icon box 120x120 @ x=20, centered vertically; text starts at x=160 -->
+  <defs>
+    <linearGradient id="gradText" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#27F3FF"/>
+      <stop offset="100%" stop-color="#FF5FD1"/>
+    </linearGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="grad-core" x1="64" y1="40" x2="192" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00E5FF"/><stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="grad-stroke" x1="40" y1="40" x2="216" y2="216" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4DF7FF"/><stop offset="1" stop-color="#FF6BD5"/>
+    </linearGradient>
+    <linearGradient id="grad-orbit1" x1="62" y1="54" x2="224" y2="164" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#37F3FF"/><stop offset="1" stop-color="#FF5FD1"/>
+    </linearGradient>
+    <linearGradient id="grad-orbit2" x1="36" y1="112" x2="198" y2="206" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14F1C9"/><stop offset="1" stop-color="#7C4DFF"/>
+    </linearGradient>
+    <linearGradient id="grad-dot" x1="0" y1="0" x2="12" y2="12" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E2FEFF"/><stop offset="1" stop-color="#8AE1FF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ICON: scaled to fit 120x120 box, centered vertically -->
+  <g transform="translate(20,20) scale(0.46875)">
+    <!-- 256 * 0.46875 = 120 -->
+    <path d="M128 40l53 30v60l-53 30-53-30V70l53-30z" fill="url(#grad-core)"/>
+    <path d="M128 40l53 30v60l-53 30-53-30V70l53-30z" stroke="url(#grad-stroke)" stroke-width="6" opacity="0.65"/>
+    <path d="M62 118c0-35 32-64 74-64 41 0 74 21 74 48 0 24-24 44-56 47" stroke="url(#grad-orbit1)" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <path d="M180 164c-16 18-42 30-70 30-40 0-72-22-72-50 0-9 3-18 8-25" stroke="url(#grad-orbit2)" stroke-width="8" stroke-linecap="round" opacity="0.8" fill="none"/>
+    <circle cx="206" cy="102" r="7" fill="url(#grad-dot)"/>
+    <circle cx="72" cy="178" r="6" fill="url(#grad-dot)"/>
+    <circle cx="162" cy="190" r="5" fill="url(#grad-dot)"/>
+  </g>
+
+  <!-- WORDMARK: baseline centered at y=80 -->
+  <g>
+    <text x="160" y="86" font-family="Manrope, 'Plus Jakarta Sans', Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial, sans-serif"
+      font-weight="800" font-size="48" fill="#EAF2FF" dominant-baseline="middle">
+      ProWeb
+    </text>
+    <text x="338" y="86" font-family="Manrope, 'Plus Jakarta Sans', Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial, sans-serif"
+      font-weight="800" font-size="48" fill="url(#gradText)" filter="url(#softGlow)" dominant-baseline="middle">
+      Studio
+    </text>
+  </g>
+</svg>

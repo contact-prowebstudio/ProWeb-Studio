@@ -1,0 +1,27 @@
+Contact: mailto:security@prowebstudio.nl
+Contact: https://prowebstudio.nl/contact
+Expires: 2026-12-31T23:59:59.000Z
+Encryption: https://prowebstudio.nl/.well-known/pgp-key.txt
+Preferred-Languages: nl, en
+Canonical: https://prowebstudio.nl/.well-known/security.txt
+Policy: https://prowebstudio.nl/security-policy
+Acknowledgments: https://prowebstudio.nl/security-acknowledgments
+Hiring: https://prowebstudio.nl/contact
+
+# ProWeb Studio Security Policy
+#
+# We take security seriously. If you have discovered a security vulnerability
+# in our services, please report it responsibly:
+#
+# 1. Email us at security@prowebstudio.nl with details
+# 2. Use our contact form at https://prowebstudio.nl/contact
+# 3. Provide a clear description of the vulnerability
+# 4. Include steps to reproduce if possible
+# 5. Allow reasonable time for us to respond and fix the issue
+#
+# We appreciate responsible disclosure and will acknowledge
+# security researchers who help improve our security.
+#
+# This file complies with RFC 9116: https://tools.ietf.org/rfc/rfc9116.txt
+# Last updated: 2025-09-07
+# Next review: 2025-12-31

@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --prefix site
+
+      - name: Run linting and formatting checks
+        run: |
+          npm --prefix site run lint
+          npm --prefix site run format:check
+
+      - name: Run tests
+        run: npm --prefix site test
+
+      - name: Build project
+        run: npm --prefix site run build
