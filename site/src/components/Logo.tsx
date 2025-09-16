@@ -17,10 +17,10 @@ export default function Logo({
   animated = true,
 }: LogoProps) {
   const sizes = {
-    sm: 'h-11 w-auto', // 44px - slightly larger from 40px
-    md: 'h-14 w-auto', // 56px - slightly larger from 48px
-    lg: 'h-16 w-auto', // 64px - slightly larger from 56px
-    xl: 'h-18 w-auto', // 72px - slightly larger from 64px
+    sm: 'h-10 w-auto md:h-11 md:w-auto', // Mobile: 40px, Desktop: 44px
+    md: 'h-12 w-auto md:h-14 md:w-auto', // Mobile: 48px, Desktop: 56px - better mobile visibility
+    lg: 'h-14 w-auto md:h-16 md:w-auto', // Mobile: 56px, Desktop: 64px
+    xl: 'h-16 w-auto md:h-18 md:w-auto', // Mobile: 64px, Desktop: 72px
   };
 
   // The new bloom animation is applied conditionally

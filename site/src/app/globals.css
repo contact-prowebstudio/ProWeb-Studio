@@ -345,3 +345,45 @@
 .grecaptcha-badge { 
   visibility: hidden !important;
 }
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .twinkle {
+    animation: none !important;
+  }
+}
+
+/* Mobile logo optimizations */
+@media (max-width: 767px) {
+  /* Ensure logo maintains visibility and proper spacing on mobile */
+  header .absolute.left-3 {
+    z-index: 50;
+  }
+  
+  /* Optimize logo glow effect for mobile */
+  .logo-glow {
+    filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.4));
+  }
+  
+  /* Ensure logo text is always readable on mobile */
+  header img[alt*="ProWeb Studio"] {
+    min-width: 120px; /* Ensure logo text is readable */
+    max-width: 160px; /* Prevent logo from being too large */
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  header .absolute.left-3 {
+    left: 0.5rem; /* Move logo even more to the left on very small screens */
+  }
+}

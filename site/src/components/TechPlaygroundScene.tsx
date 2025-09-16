@@ -866,26 +866,6 @@ export default function StudioAnwarScene({
           />
         </React.Suspense>
       </Canvas>
-
-      {/* Brand Signature */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 20,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          color: PALETTES[palette].primary,
-          fontFamily: 'system-ui, -apple-system, sans-serif',
-          fontSize: '12px',
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          opacity: 0.6,
-          pointerEvents: 'none',
-          textShadow: `0 0 20px ${PALETTES[palette].primary}50`,
-        }}
-      >
-        ProWeb Studio • Waar licht kunst wordt
-      </div>
     </div>
   );
 }

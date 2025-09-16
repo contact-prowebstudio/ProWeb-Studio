@@ -6,9 +6,10 @@ import { Preload, AdaptiveDpr, PerformanceMonitor } from '@react-three/drei';
 
 interface Scene3DProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export default function Scene3D({ children }: Scene3DProps) {
+export default function Scene3D({ children, className }: Scene3DProps) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -18,19 +19,28 @@ export default function Scene3D({ children }: Scene3DProps) {
   if (!isMounted) return null;
 
   return (
-    <div className="absolute inset-0">
+    <div className={className || "absolute inset-0"}>
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 45 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 1.8]}
+        gl={{ 
+          antialias: true, 
+          alpha: true, 
+          powerPreference: 'high-performance' 
+        }}
+        camera={{ 
+          position: [0, 0, 6], 
+          fov: 50, 
+          near: 0.1, 
+          far: 100 
+        }}
         onCreated={(state) => {
-          // Ensure canvas is properly initialized
+          // Set transparent clear color
           state.gl.setClearColor('#000000', 0);
         }}
       >
         <Suspense fallback={null}>
           {children}
-          <AdaptiveDpr pixelated />
+          <AdaptiveDpr />
           <PerformanceMonitor />
           <Preload all />
         </Suspense>

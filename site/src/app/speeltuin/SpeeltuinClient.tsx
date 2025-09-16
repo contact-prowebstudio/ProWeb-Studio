@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useState, useCallback, useEffect } from 'react';
 import TechPlaygroundScene from '@/components/TechPlaygroundScene';
+import SceneHUD from '@/components/overlay/SceneHUD';
+import { LiveBadge, FooterLeft, FooterRight } from '@/components/overlay/HUDCopy';
 
 export default function SpeeltuinClient() {
   // Enhanced state management for the 3D scene
@@ -178,16 +180,9 @@ export default function SpeeltuinClient() {
         </section>
 
         {/* Enhanced Interactive Canvas */}
-        <section className="mb-24 h-[700px]">
-          <div className="relative h-full bg-cosmic-900 rounded-xl border border-cosmic-700/60 overflow-hidden shadow-2xl">
-            {/* Canvas performance overlay */}
-            <div className="absolute top-4 left-4 z-10 flex items-center space-x-2">
-              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
-              <span className="text-xs text-green-300 font-medium">
-                Live Rendering
-              </span>
-            </div>
-
+        <section className="mb-24">
+          <div className="relative rounded-2xl bg-slate-900/60 ring-1 ring-white/10 overflow-hidden
+                          aspect-[3/4] sm:aspect-[4/5] md:aspect-[16/9] h-[700px] md:h-auto">
             <TechPlaygroundScene
               materialMode={material}
               palette={palette}
@@ -195,16 +190,12 @@ export default function SpeeltuinClient() {
               interactionHeat={interactionHeat}
               autoRotate={true}
             />
-
-            {/* Enhanced interaction hints */}
-            <div className="absolute bottom-4 right-4 z-10 text-right">
-              <p className="text-xs text-cyan-300/70 mb-1">
-                🖱️ Drag to rotate • 🖱️ Scroll to zoom
-              </p>
-              <p className="text-xs text-cyan-300/50">
-                ⚡ Real-time interaction response
-              </p>
-            </div>
+            
+            <SceneHUD
+              topLeft={<LiveBadge />}
+              bottomLeft={<FooterLeft />}
+              bottomRight={<FooterRight />}
+            />
           </div>
         </section>
 

@@ -356,22 +356,6 @@ export default function SecureContactForm() {
                 </div>
               )}
 
-              {status === 'success' && (
-                <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <svg className="w-6 h-6 text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-green-200">Bericht succesvol verzonden!</h3>
-                    <p className="text-sm text-green-300 mt-1">
-                      Bedankt voor je aanvraag. We hebben je bericht in goede orde ontvangen en nemen binnen 24 uur contact met je op.
-                    </p>
-                  </div>
-                </div>
-              )}
-
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label htmlFor="name" className="block text-sm font-medium text-gray-200">
@@ -501,6 +485,22 @@ export default function SecureContactForm() {
               </div>
 
               <div className="space-y-4">
+                {status === 'success' && (
+                  <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg flex items-start gap-4 animate-fade-in">
+                    <div className="flex-shrink-0">
+                      <svg className="w-6 h-6 text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-green-200">Bericht succesvol verzonden!</h3>
+                      <p className="text-sm text-green-300 mt-1">
+                        Bedankt voor je aanvraag. We hebben je bericht in goede orde ontvangen en nemen binnen 24 uur contact met je op.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <button
                   type="submit"
                   disabled={status === 'sending' || !recaptchaLoaded}

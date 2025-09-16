@@ -134,7 +134,7 @@ export default function Diensten() {
       <FAQSchema faqs={dienstenFaqs} />
 
       {/* Hero section with 3D elements */}
-      <section className="relative min-h-[70vh] overflow-hidden flex items-center">
+      <section className="relative min-h-[75svh] md:min-h-[70vh] overflow-hidden flex items-center">
         <Image
           src="/assets/nebula_services_background.png"
           alt="Nebula achtergrond met zwevende geometrische vormen"
