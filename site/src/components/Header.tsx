@@ -24,7 +24,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 w-full z-40 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-40 transition-all duration-300 header-safe ${
         isScrolled
           ? 'glass py-4 backdrop-blur-xl border-b border-cosmic-700/30'
           : 'py-6'
@@ -34,7 +34,7 @@ export default function Header() {
         <div className="absolute left-3 md:left-6">
           <Link
             href="/"
-            className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded-lg p-1 -m-1"
+            className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded-lg p-3 -m-3 min-h-[44px] inline-flex items-center"
             aria-label="ProWeb Studio Homepage"
           >
             <Logo
@@ -60,7 +60,7 @@ export default function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="font-medium text-gray-300 hover:text-white transition-all duration-300 relative group py-2 px-3 rounded-lg hover:bg-cyan-400/5 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-cosmic-900"
+              className="font-medium text-gray-300 hover:text-white transition-all duration-300 relative group py-3 px-3 rounded-lg hover:bg-cyan-400/5 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-cosmic-900 min-h-[44px] inline-flex items-center"
             >
               <span className="relative z-10">{item.name}</span>
               <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-cyan-400 to-magenta-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
@@ -71,7 +71,7 @@ export default function Header() {
 
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden absolute right-6 flex flex-col gap-1 p-2 hover:bg-cosmic-800/50 rounded-lg transition-colors duration-300"
+          className="md:hidden absolute right-6 flex flex-col gap-1 p-3 hover:bg-cosmic-800/50 rounded-lg transition-colors duration-300 min-h-[44px] min-w-[44px] items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900"
           aria-label="Toggle menu"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"

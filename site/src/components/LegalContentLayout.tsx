@@ -18,7 +18,7 @@ export default function LegalContentLayout({ children, className }: Props) {
   const base =
     [
       // spacing & container
-      'relative mx-auto px-6 pb-24 pt-28 md:pt-32',
+      'relative mx-auto py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 pt-28 md:pt-32',
       // readable line length (~72ch)
       'max-w-[72ch]',
       // typography

@@ -62,7 +62,7 @@ export default function MobileMenu({
             <button 
               aria-label="Close menu" 
               onClick={onClose}
-              className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm" 
+              className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm focus:outline-none" 
             />
             
             {/* panel */}
@@ -108,8 +108,8 @@ export default function MobileMenu({
                           ref={i === 0 ? firstRef : undefined}
                           href={it.href}
                           onClick={onClose}
-                          className="block w-full rounded-xl px-4 py-3 text-[17px] font-medium tracking-wide
-                                     text-white/95 hover:text-white
+                          className="block w-full rounded-xl px-4 py-4 text-[17px] font-medium tracking-wide
+                                     text-white/95 hover:text-white min-h-[44px] flex items-center
                                      hover:bg-white/6 focus:bg-white/8 focus:outline-none
                                      ring-1 ring-transparent hover:ring-white/10 focus:ring-white/15
                                      transition-colors"

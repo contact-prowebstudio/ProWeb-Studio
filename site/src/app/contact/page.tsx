@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <>
+    <main className="content-safe-top pt-20 md:pt-24">
       <SecureContactForm />
       <section
         id="seo-content"
@@ -98,6 +98,6 @@ export default function ContactPage() {
           }),
         }}
       />
-    </>
+    </main>
   );
 }

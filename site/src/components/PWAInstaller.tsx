@@ -145,13 +145,13 @@ export default function PWAInstaller({ onInstallPrompt }: PWAInstallProps) {
         <div className="mt-4 flex space-x-2">
           <button
             onClick={handleInstallClick}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors"
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-3 px-4 rounded-md transition-colors min-h-[44px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Installeren
           </button>
           <button
             onClick={() => setIsInstallable(false)}
-            className="flex-1 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white text-sm font-medium py-2 px-4 rounded-md transition-colors"
+            className="flex-1 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white text-sm font-medium py-3 px-4 rounded-md transition-colors min-h-[44px] focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
           >
             Later
           </button>

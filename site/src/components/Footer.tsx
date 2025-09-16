@@ -43,9 +43,9 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-cosmic-800/20 border-t border-cosmic-700 py-12 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-cosmic-800/20 border-t border-cosmic-700 py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6">
+      <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-8">
           <div>
             <div className="mb-3 transform hover:scale-105 transition-transform duration-300">
               <Logo variant="full" size="lg" withGlow={true} animated={true} />
@@ -63,7 +63,7 @@ export default function Footer() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-gray-400 hover:text-cyan-400 text-sm"
+                      className="text-gray-400 hover:text-cyan-400 text-sm min-h-[44px] inline-flex items-center py-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded"
                     >
                       {item.name}
                     </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="hover:text-cyan-400"
+                  className="hover:text-cyan-400 min-h-[44px] inline-flex items-center py-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded"
                 >
                   {siteConfig.email}
                 </a>
@@ -87,7 +87,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`tel:${siteConfig.phone}`}
-                  className="hover:text-cyan-400"
+                  className="hover:text-cyan-400 min-h-[44px] inline-flex items-center py-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded"
                 >
                   {siteConfig.phone}
                 </a>
@@ -114,7 +114,7 @@ export default function Footer() {
                   id="newsletter-email"
                   name="email"
                   placeholder="jouw@email.nl"
-                  className="flex-1 px-4 py-3 bg-cosmic-800/60 border border-cosmic-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all duration-300 placeholder-gray-500"
+                  className="sm:flex-1 px-4 py-3 min-h-[44px] bg-cosmic-800/60 border border-cosmic-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all duration-300 placeholder-gray-500"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -122,7 +122,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-magenta-500 rounded-lg font-semibold text-sm hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-cosmic-900 whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-magenta-500 rounded-lg font-semibold text-sm hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-cosmic-900 whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed min-h-[44px] touch-target sm:min-w-[140px]"
                   disabled={status === 'sending'}
                 >
                   {status === 'sending' ? 'Bezig...' : 'Inschrijven'}
@@ -147,7 +147,7 @@ export default function Footer() {
           <Link
             href="/privacy"
             aria-label="Privacybeleid"
-            className="hover:text-white transition-colors"
+            className="hover:text-white transition-colors min-h-[44px] inline-flex items-center py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded"
           >
             Privacybeleid
           </Link>
@@ -155,7 +155,7 @@ export default function Footer() {
           <Link
             href="/voorwaarden"
             aria-label="Algemene voorwaarden"
-            className="hover:text-white transition-colors"
+            className="hover:text-white transition-colors min-h-[44px] inline-flex items-center py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded"
           >
             Algemene voorwaarden
           </Link>
@@ -163,7 +163,7 @@ export default function Footer() {
           <a
             href="/sitemap.xml"
             aria-label="Sitemap"
-            className="hover:text-white transition-colors"
+            className="hover:text-white transition-colors min-h-[44px] inline-flex items-center py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded"
           >
             Sitemap
           </a>
@@ -171,7 +171,7 @@ export default function Footer() {
           <a
             href={`mailto:${siteConfig.contact?.inbox ?? 'contact@prowebstudio.nl'}`}
             aria-label="Contact per e-mail"
-            className="hover:text-white transition-colors"
+            className="hover:text-white transition-colors min-h-[44px] inline-flex items-center py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded"
           >
             Contact
           </a>

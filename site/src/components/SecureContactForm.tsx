@@ -270,7 +270,7 @@ export default function SecureContactForm() {
 
   return (
     <>
-      <section className="relative py-24 lg:py-32 px-6 min-h-[60vh] grid place-items-center overflow-hidden">
+      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 xl:py-32 px-4 sm:px-6 min-h-[60vh] grid place-items-center overflow-hidden">
         <Image
           src="/assets/glowing_beacon_contact.png"
           alt="Lichtbaken dat de weg wijst — contact achtergrond"
@@ -280,17 +280,17 @@ export default function SecureContactForm() {
           sizes="(max-width: 768px) 100vw, 1200px"
           className="object-cover object-center opacity-30 pointer-events-none"
         />
-        <div className="relative z-10 w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        <div className="relative z-10 w-full max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="text-4xl lg:text-5xl font-bold text-white">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
                 Laten we jouw{' '}
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   digitale visie
                 </span>{' '}
                 realiseren
               </h1>
-              <p className="text-lg text-gray-300 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                 Klaar om jouw online aanwezigheid naar het volgende niveau te
                 tillen? Vertel ons over jouw project en ontdek hoe ProWeb
                 Studio jouw digitale doelen kan realiseren.
@@ -338,10 +338,10 @@ export default function SecureContactForm() {
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20">
+          <div className="bg-white/10 backdrop-blur-sm p-6 sm:p-7 md:p-8 rounded-2xl border border-white/20">
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
                   Start jouw project
                 </h2>
                 <p className="text-gray-300">
@@ -356,7 +356,7 @@ export default function SecureContactForm() {
                 </div>
               )}
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label htmlFor="name" className="block text-sm font-medium text-gray-200">
                     Naam *
@@ -367,7 +367,7 @@ export default function SecureContactForm() {
                     name="name"
                     value={form.name}
                     onChange={onChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 min-h-[44px] bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Jouw naam"
                     required
                     maxLength={100}
@@ -386,7 +386,7 @@ export default function SecureContactForm() {
                     name="email"
                     value={form.email}
                     onChange={onChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 min-h-[44px] bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="jouw@email.nl"
                     required
                     maxLength={254}
@@ -406,7 +406,7 @@ export default function SecureContactForm() {
                   name="phone"
                   value={form.phone}
                   onChange={onChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 min-h-[44px] bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="+31686412430"
                   autoComplete="tel"
                 />
@@ -431,7 +431,7 @@ export default function SecureContactForm() {
                 <label className="block text-sm font-medium text-gray-200">
                   Welke diensten interesseren je? *
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3">
                   {[
                     { id: 'website', label: '🌐 Website' },
                     { id: 'webshop', label: '🛒 Webshop' },
@@ -446,7 +446,7 @@ export default function SecureContactForm() {
                       key={type.id}
                       type="button"
                       onClick={() => onToggleType(type.id)}
-                      className={`p-3 rounded-lg border text-left transition-all ${
+                      className={`p-3 rounded-lg border text-left transition-all min-h-[44px] flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-cosmic-900 ${
                         form.projectTypes.includes(type.id)
                           ? 'bg-blue-500/30 border-blue-400 text-white'
                           : 'bg-white/5 border-white/20 text-gray-300 hover:bg-white/10'
@@ -471,7 +471,7 @@ export default function SecureContactForm() {
                   value={form.message}
                   onChange={onChange}
                   rows={5}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
+                  className="w-full px-4 py-3 min-h-[88px] bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
                   placeholder="Beschrijf jouw project, doelen, en eventuele specifieke wensen..."
                   required
                   maxLength={5000}
@@ -504,7 +504,7 @@ export default function SecureContactForm() {
                 <button
                   type="submit"
                   disabled={status === 'sending' || !recaptchaLoaded}
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
+                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium px-6 py-3 sm:px-8 sm:py-3.5 md:px-10 md:py-4 rounded-lg transition-all duration-300 hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 min-h-[44px] touch-target focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-cosmic-900"
                 >
                   {status === 'sending' ? (
                     <span className="flex items-center justify-center gap-2">
@@ -533,11 +533,11 @@ export default function SecureContactForm() {
 
                 <p className="text-xs text-gray-400 text-center">
                   Dit formulier is beveiligd met reCAPTCHA v3. Door te versturen ga je akkoord met onze{' '}
-                  <a href="/privacy" className="text-blue-400 hover:underline">
+                  <a href="/privacy" className="text-blue-400 hover:underline min-h-[44px] inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded">
                     privacyverklaring
                   </a>{' '}
                   en{' '}
-                  <a href="/voorwaarden" className="text-blue-400 hover:underline">
+                  <a href="/voorwaarden" className="text-blue-400 hover:underline min-h-[44px] inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded">
                     algemene voorwaarden
                   </a>
                   .

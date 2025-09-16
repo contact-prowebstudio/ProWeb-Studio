@@ -124,7 +124,7 @@ export default function Diensten() {
   };
 
   return (
-    <>
+    <main className="pt-20 md:pt-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -134,7 +134,7 @@ export default function Diensten() {
       <FAQSchema faqs={dienstenFaqs} />
 
       {/* Hero section with 3D elements */}
-      <section className="relative min-h-[75svh] md:min-h-[70vh] overflow-hidden flex items-center">
+      <section className="relative min-h-[75svh] md:min-h-[70vh] overflow-hidden flex items-center content-safe-top">
         <Image
           src="/assets/nebula_services_background.png"
           alt="Nebula achtergrond met zwevende geometrische vormen"
@@ -155,11 +155,11 @@ export default function Diensten() {
         </Suspense>
 
         <div className="relative z-10 w-full">
-          <div className="max-w-6xl mx-auto px-6 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-8 glow-text leading-tight max-w-5xl mx-auto animate-fade-in">
+          <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 glow-text leading-tight max-w-5xl mx-auto animate-fade-in">
               Meer dan Code. Oplossingen die Groeien.
             </h1>
-            <p className="text-xl text-cyan-400 max-w-4xl mx-auto leading-relaxed animate-slide-up">
+            <p className="text-base sm:text-lg md:text-xl text-cyan-400 max-w-4xl mx-auto leading-relaxed animate-slide-up">
               Elke dienst die we aanbieden is een samensmelting van strategie,
               creativiteit en technologische excellentie. We bouwen geen
               websites; we bouwen groeimotoren. Ontdek hoe onze expertise uw
@@ -170,13 +170,13 @@ export default function Diensten() {
       </section>
 
       {/* Services grid */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6">
+        <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {services.map((service, i) => (
               <div
                 key={i}
-                className="glass p-8 rounded-xl hover:border-cyan-500/60 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/10 group relative overflow-hidden animate-fade-in"
+                className="glass p-6 sm:p-7 md:p-8 rounded-xl hover:border-cyan-500/60 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/10 group relative overflow-hidden animate-fade-in"
                 style={{ animationDelay: `${i * 0.2}s` }}
               >
                 {/* Gradient overlay on hover */}
@@ -184,7 +184,7 @@ export default function Diensten() {
 
                 <div className="relative z-10">
                   <div className="text-4xl mb-4">{service.icon}</div>
-                  <h3 className="text-2xl font-bold mb-6 group-hover:text-cyan-300 transition-colors duration-300">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 group-hover:text-cyan-300 transition-colors duration-300">
                     {service.title}
                   </h3>
                   <p className="text-gray-300 mb-8 leading-relaxed">
@@ -211,13 +211,13 @@ export default function Diensten() {
       </section>
 
       {/* Tech Stack Section */}
-      <section className="py-24 px-6 bg-cosmic-800/20 border-t border-cosmic-700/60">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-cosmic-800/20 border-t border-cosmic-700/60">
+        <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 leading-tight">
               Onze Technologische Kern
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Wij geloven in het kiezen van het juiste gereedschap voor elke
               uitdaging. Onze expertise ligt in een moderne, performante en
               schaalbare technologiestack, ontworpen om u een
@@ -225,9 +225,9 @@ export default function Diensten() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-center">
             <div className="glass p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-cyan-300 mb-4">Frontend</h3>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-300 mb-4">Frontend</h3>
               <ul className="space-y-2 text-gray-300">
                 <li>Next.js</li>
                 <li>React</li>
@@ -237,7 +237,7 @@ export default function Diensten() {
               </ul>
             </div>
             <div className="glass p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-cyan-300 mb-4">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-300 mb-4">
                 3D & Animatie
               </h3>
               <ul className="space-y-2 text-gray-300">
@@ -247,7 +247,7 @@ export default function Diensten() {
               </ul>
             </div>
             <div className="glass p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-cyan-300 mb-4">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-300 mb-4">
                 Backend & CMS
               </h3>
               <ul className="space-y-2 text-gray-300">
@@ -257,7 +257,7 @@ export default function Diensten() {
               </ul>
             </div>
             <div className="glass p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-cyan-300 mb-4">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-300 mb-4">
                 Deployment & Infrastructuur
               </h3>
               <ul className="space-y-2 text-gray-300">
@@ -271,26 +271,26 @@ export default function Diensten() {
       </section>
 
       {/* Call to action */}
-      <section className="py-24 px-6 bg-cosmic-900">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-cosmic-900">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 leading-tight">
             Op maat gemaakte oplossingen
           </h2>
-          <p className="text-xl mb-12 text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl mb-12 text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Elk project is uniek. Laten we samen jouw perfecte oplossing bouwen
             die jouw verwachtingen overtreft.
           </p>
           <div className="flex gap-6 justify-center flex-wrap">
             <a
               href="/contact"
-              className="px-10 py-4 bg-gradient-to-r from-cyan-500 to-magenta-500 rounded-lg font-semibold hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/25 relative overflow-hidden group"
+              className="px-6 py-3 sm:px-8 sm:py-3.5 md:px-10 md:py-4 bg-gradient-to-r from-cyan-500 to-magenta-500 rounded-lg font-semibold hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/25 relative overflow-hidden group"
             >
               <span className="relative z-10">Plan een intake</span>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-magenta-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </a>
             <a
               href="/speeltuin"
-              className="px-10 py-4 border border-cyan-400/60 text-cyan-100 rounded-lg hover:bg-cyan-400/10 transition-all duration-300 hover:border-cyan-400/80 hover:shadow-lg group relative overflow-hidden"
+              className="px-6 py-3 sm:px-8 sm:py-3.5 md:px-10 md:py-4 border border-cyan-400/60 text-cyan-100 rounded-lg hover:bg-cyan-400/10 transition-all duration-300 hover:border-cyan-400/80 hover:shadow-lg group relative overflow-hidden"
             >
               <span className="relative z-10 flex items-center gap-2">
                 Ervaar onze technologie
@@ -376,6 +376,6 @@ export default function Diensten() {
           </a>
         </p>
       </section>
-    </>
+    </main>
   );
 }

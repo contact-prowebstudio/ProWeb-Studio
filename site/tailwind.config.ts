@@ -13,6 +13,10 @@ const config: Config = {
   },
   theme: {
     extend: {
+      screens: {
+        'xs': '320px',
+        'landscape': { 'raw': '(orientation: landscape)' },
+      },
       colors: {
         cosmic: {
           50: '#e6f2ff',

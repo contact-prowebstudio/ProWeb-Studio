@@ -27,9 +27,91 @@ import {
 import { BlendFunction, KernelSize } from 'postprocessing';
 import * as THREE from 'three';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { useDeviceCapabilities } from '@/hooks/useDeviceCapabilities';
 
 // Extend THREE to include TextGeometry
 extend({ TextGeometry });
+
+// ---------- Enhanced Mobile Detection & Performance Utilities ----------
+const getDeviceInfo = () => {
+  if (typeof window === 'undefined') return { 
+    isMobile: false, 
+    isIOS: false, 
+    isAndroid: false, 
+    performanceTier: 'high' as const,
+    screenSize: 'desktop' as const 
+  };
+  
+  const userAgent = navigator.userAgent;
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) ||
+                   window.innerWidth <= 768;
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent);
+  const isAndroid = /Android/.test(userAgent);
+  
+  // Enhanced performance tier detection
+  const hardwareConcurrency = navigator.hardwareConcurrency || 4;
+  // @ts-expect-error - deviceMemory is experimental
+  const deviceMemory = navigator.deviceMemory || 4;
+  
+  let performanceTier: 'low' | 'medium' | 'high' = 'medium';
+  
+  if (isMobile) {
+    if (hardwareConcurrency < 4 || deviceMemory < 4) performanceTier = 'low';
+    else if (hardwareConcurrency >= 6 && deviceMemory >= 6) performanceTier = 'high';
+  } else {
+    if (hardwareConcurrency < 4 || deviceMemory < 8) performanceTier = 'low';
+    else if (hardwareConcurrency >= 8 && deviceMemory >= 16) performanceTier = 'high';
+  }
+  
+  const screenSize = window.innerWidth <= 480 ? 'mobile' : 
+                    window.innerWidth <= 768 ? 'tablet' : 'desktop';
+  
+  return { isMobile, isIOS, isAndroid, performanceTier, screenSize };
+};
+
+// Performance-aware configuration
+const getOptimizedConfig = () => {
+  const { isMobile, performanceTier } = getDeviceInfo();
+  
+  return {
+    // Particle counts based on device capability
+    dustParticles: isMobile ? 
+      (performanceTier === 'low' ? 200 : performanceTier === 'medium' ? 500 : 800) : 
+      (performanceTier === 'low' ? 800 : performanceTier === 'medium' ? 1500 : 2000),
+    
+    sparkleCount: isMobile ?
+      (performanceTier === 'low' ? 10 : performanceTier === 'medium' ? 20 : 30) :
+      (performanceTier === 'low' ? 20 : performanceTier === 'medium' ? 30 : 50),
+      
+    // Shadow resolution
+    shadowMapSize: isMobile ?
+      (performanceTier === 'low' ? 256 : performanceTier === 'medium' ? 512 : 1024) :
+      (performanceTier === 'low' ? 512 : performanceTier === 'medium' ? 1024 : 2048),
+      
+    // DPR settings
+    dpr: isMobile ?
+      (performanceTier === 'low' ? [0.8, 1] : performanceTier === 'medium' ? [1, 1.2] : [1, 1.5]) :
+      (performanceTier === 'low' ? [1, 1.5] : performanceTier === 'medium' ? [1, 1.8] : [1, 2]),
+      
+    // Post-processing
+    enablePostProcessing: performanceTier !== 'low',
+    bloomIntensity: performanceTier === 'low' ? 0.8 : performanceTier === 'medium' ? 1.2 : 1.5,
+    
+    // Lighting
+    maxLights: isMobile ? 
+      (performanceTier === 'low' ? 2 : 3) :
+      (performanceTier === 'low' ? 3 : performanceTier === 'medium' ? 4 : 6),
+      
+    // Geometry detail
+    geometryDetail: performanceTier === 'low' ? 0.5 : performanceTier === 'medium' ? 0.8 : 1.0,
+  };
+};
+
+// ---------- Camera Configuration ----------
+const getCameraPosition = (): [number, number, number] => {
+  const { isMobile } = getDeviceInfo();
+  return isMobile ? [4, 2, 6] : [5, 3, 8];
+};
 
 // ---------- Sacred Geometry & Brand Colors ----------
 const PALETTES = {
@@ -113,7 +195,68 @@ const createCalligraphicPaths = () => {
   );
 };
 
-// ---------- The Crystal Heart (Enhanced Geometry) ----------
+// ---------- Mobile Controls Helper ----------
+function MobileControlsHelper() {
+  const { gl, camera } = useThree();
+  const { isMobile } = getDeviceInfo();
+  
+  React.useEffect(() => {
+    if (!isMobile) return;
+    
+    const canvas = gl.domElement;
+    let isTouch = false;
+    
+    const handleTouchStart = (event: TouchEvent) => {
+      isTouch = true;
+      // Prevent context menu on long press
+      event.preventDefault();
+    };
+    
+    const handleTouchEnd = () => {
+      isTouch = false;
+    };
+    
+    const handleTouchMove = (event: TouchEvent) => {
+      if (isTouch && event.touches.length === 2) {
+        // Prevent default zoom behavior to let OrbitControls handle it
+        event.preventDefault();
+      }
+    };
+    
+    // Add passive listeners for better performance
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: true });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    
+    // Set initial mobile camera position
+    camera.position.set(...getCameraPosition());
+    
+    return () => {
+      canvas.removeEventListener('touchstart', handleTouchStart);
+      canvas.removeEventListener('touchend', handleTouchEnd);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [gl, camera, isMobile]);
+  
+  // Handle responsive camera adjustments
+  React.useEffect(() => {
+    const handleResize = () => {
+      camera.position.set(...getCameraPosition());
+      if (camera instanceof THREE.PerspectiveCamera) {
+        const { isMobile } = getDeviceInfo();
+        camera.fov = isMobile ? 60 : 50;
+        camera.updateProjectionMatrix();
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [camera]);
+  
+  return null;
+}
+
+// ---------- The Crystal Heart (Enhanced Geometry with LOD) ----------
 function CrystalPrism({
   mode,
   colors,
@@ -128,16 +271,19 @@ function CrystalPrism({
   const meshRef = React.useRef<THREE.Mesh>(null!);
   const innerRef = React.useRef<THREE.Mesh>(null!);
   const energyLinesRef = React.useRef<THREE.Group>(null!);
+  
+  const config = getOptimizedConfig();
 
-  // More intricate geometry - dodecahedron with inner icosahedron
-  const outerGeo = React.useMemo(
-    () => new THREE.DodecahedronGeometry(1, 0),
-    [],
-  );
-  const innerGeo = React.useMemo(
-    () => new THREE.IcosahedronGeometry(0.6, 1),
-    [],
-  );
+  // LOD-based geometry - reduce detail on lower performance tiers
+  const outerGeo = React.useMemo(() => {
+    const detail = config.geometryDetail;
+    return new THREE.DodecahedronGeometry(1, Math.floor(detail * 2));
+  }, [config.geometryDetail]);
+  
+  const innerGeo = React.useMemo(() => {
+    const detail = config.geometryDetail;
+    return new THREE.IcosahedronGeometry(0.6, Math.max(1, Math.floor(detail * 2)));
+  }, [config.geometryDetail]);
 
   useFrame((state) => {
     if (!meshRef.current || !innerRef.current) return;
@@ -206,11 +352,11 @@ function CrystalPrism({
         />
       </mesh>
 
-      {/* Energy transition effect */}
+      {/* Energy transition effect - reduced on low performance */}
       <group ref={energyLinesRef}>
-        {[...Array(8)].map((_, i) => (
-          <mesh key={i} rotation={[0, (i * Math.PI) / 4, 0]}>
-            <torusGeometry args={[1.2, 0.01, 8, 32]} />
+        {[...Array(config.geometryDetail >= 0.8 ? 8 : 4)].map((_, i) => (
+          <mesh key={i} rotation={[0, (i * Math.PI) / (config.geometryDetail >= 0.8 ? 4 : 2), 0]}>
+            <torusGeometry args={[1.2, 0.01, config.geometryDetail >= 0.8 ? 8 : 4, 32]} />
             <meshBasicMaterial
               color={colors.accent}
               transparent
@@ -220,9 +366,9 @@ function CrystalPrism({
         ))}
       </group>
 
-      {/* Heart emission particles */}
+      {/* Heart emission particles - optimized for mobile */}
       <Sparkles
-        count={30}
+        count={getOptimizedConfig().sparkleCount}
         scale={2.5}
         size={3}
         speed={0.4}
@@ -370,7 +516,7 @@ function CalligraphicReveal({
   );
 }
 
-// ---------- Living Constellation Nodes ----------
+// ---------- Living Constellation Nodes (Performance Optimized) ----------
 function ConstellationNodes({
   colors,
   mousePos,
@@ -384,22 +530,29 @@ function ConstellationNodes({
 }) {
   const nodes = React.useRef<THREE.Group>(null!);
   const trailRefs = React.useRef<THREE.Mesh[]>([]);
+  
+  const config = getOptimizedConfig();
 
-  // Sacred geometry positions - golden ratio based
+  // Sacred geometry positions - golden ratio based (reduced count on low performance)
   const nodeData = React.useMemo(() => {
     const phi = (1 + Math.sqrt(5)) / 2;
-    return [
+    const baseNodes = [
       { pos: [phi, 1, 0], size: 0.08 },
       { pos: [-phi, -1, 0], size: 0.08 },
       { pos: [1, 0, phi], size: 0.06 },
       { pos: [-1, 0, -phi], size: 0.06 },
       { pos: [0, phi, 1], size: 0.07 },
       { pos: [0, -phi, -1], size: 0.07 },
-    ].map((n) => ({
+    ];
+    
+    // Reduce nodes on low performance
+    const nodeCount = config.geometryDetail < 0.8 ? 4 : 6;
+    
+    return baseNodes.slice(0, nodeCount).map((n) => ({
       ...n,
       pos: new THREE.Vector3(...n.pos).normalize().multiplyScalar(3),
     }));
-  }, []);
+  }, [config.geometryDetail]);
 
   useFrame((state) => {
     if (!nodes.current) return;
@@ -440,7 +593,11 @@ function ConstellationNodes({
               }}
             >
               <sphereGeometry
-                args={[node.size * (revealActive ? 1.5 : 1), 16, 16]}
+                args={[
+                  node.size * (revealActive ? 1.5 : 1), 
+                  Math.max(8, Math.floor(16 * config.geometryDetail)), 
+                  Math.max(8, Math.floor(16 * config.geometryDetail))
+                ]}
               />
               <meshPhysicalMaterial
                 color={colors.primary}
@@ -489,7 +646,7 @@ function CosmicDust({
   crystalEmission: boolean;
 }) {
   const points = React.useRef<THREE.Points>(null!);
-  const count = 2000;
+  const count = getOptimizedConfig().dustParticles;
 
   const positions = React.useMemo(() => {
     const pos = new Float32Array(count * 3);
@@ -517,7 +674,7 @@ function CosmicDust({
     }
 
     return pos;
-  }, [crystalEmission]);
+  }, [crystalEmission, count]);
 
   useFrame((state) => {
     if (!points.current) return;
@@ -593,7 +750,7 @@ function CosmicDust({
   );
 }
 
-// ---------- Dynamic Lighting System ----------
+// ---------- Dynamic Lighting System (Performance Optimized) ----------
 function LightingRig({
   colors,
   pulseRef,
@@ -604,6 +761,8 @@ function LightingRig({
   const light1 = React.useRef<THREE.PointLight>(null!);
   const light2 = React.useRef<THREE.PointLight>(null!);
   const light3 = React.useRef<THREE.SpotLight>(null!);
+  
+  const config = getOptimizedConfig();
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
@@ -617,7 +776,7 @@ function LightingRig({
       light1.current.intensity = 1.5 + pulseRef.current * 0.5;
     }
 
-    if (light2.current) {
+    if (light2.current && config.maxLights > 2) {
       const radius = 4 + pulseRef.current * 0.5;
       light2.current.position.x = Math.cos(time * 0.3 + Math.PI) * radius;
       light2.current.position.z = Math.sin(time * 0.3 + Math.PI) * radius;
@@ -625,7 +784,7 @@ function LightingRig({
       light2.current.intensity = 1 + pulseRef.current * 0.3;
     }
 
-    if (light3.current) {
+    if (light3.current && config.maxLights > 3) {
       light3.current.intensity = 2 + pulseRef.current;
     }
   });
@@ -634,40 +793,54 @@ function LightingRig({
     <>
       <ambientLight intensity={0.1} color={colors.bg} />
 
+      {/* Primary light - always enabled */}
       <pointLight
         ref={light1}
         intensity={1.5}
         color={colors.primary}
         distance={8}
         decay={2}
+        castShadow={config.maxLights > 2}
+        shadow-mapSize={[config.shadowMapSize, config.shadowMapSize]}
       />
 
-      <pointLight
-        ref={light2}
-        intensity={1}
-        color={colors.secondary}
-        distance={8}
-        decay={2}
-      />
+      {/* Secondary lights only on higher performance */}
+      {config.maxLights > 2 && (
+        <pointLight
+          ref={light2}
+          intensity={1}
+          color={colors.secondary}
+          distance={8}
+          decay={2}
+          castShadow={config.maxLights > 4}
+          shadow-mapSize={[config.shadowMapSize, config.shadowMapSize]}
+        />
+      )}
 
-      <spotLight
-        ref={light3}
-        position={[0, 5, 0]}
-        angle={0.6}
-        penumbra={0.5}
-        intensity={2}
-        color={colors.glow}
-        castShadow
-      />
+      {config.maxLights > 3 && (
+        <spotLight
+          ref={light3}
+          position={[0, 5, 0]}
+          angle={0.6}
+          penumbra={0.5}
+          intensity={2}
+          color={colors.glow}
+          castShadow={config.maxLights > 4}
+          shadow-mapSize={[config.shadowMapSize, config.shadowMapSize]}
+        />
+      )}
 
-      <rectAreaLight
-        position={[0, -3, 0]}
-        width={10}
-        height={10}
-        intensity={0.5}
-        color={colors.accent}
-        rotation={[-Math.PI / 2, 0, 0]}
-      />
+      {/* Area light only on high performance */}
+      {config.maxLights > 4 && (
+        <rectAreaLight
+          position={[0, -3, 0]}
+          width={10}
+          height={10}
+          intensity={0.5}
+          color={colors.accent}
+          rotation={[-Math.PI / 2, 0, 0]}
+        />
+      )}
     </>
   );
 }
@@ -680,6 +853,8 @@ function SceneContent({
   interactionHeat,
   autoRotate,
 }: StudioAnwarSceneProps) {
+  const config = getOptimizedConfig();
+  const { isMobile } = getDeviceInfo();
   const [currentColors, setCurrentColors] = React.useState(PALETTES[palette!]);
   const [transitioning, setTransitioning] = React.useState(false);
   const pulseRef = React.useRef(0);
@@ -751,18 +926,27 @@ function SceneContent({
     <>
       <color attach="background" args={[colors.bg]} />
 
+      <MobileControlsHelper />
+
       <OrbitControls
         makeDefault
         enablePan={false}
         enableDamping
-        dampingFactor={0.05}
-        rotateSpeed={0.4}
+        dampingFactor={isMobile ? 0.1 : 0.05}
+        rotateSpeed={isMobile ? 0.6 : 0.4}
         autoRotate={autoRotate}
         autoRotateSpeed={0.2}
-        minDistance={4}
-        maxDistance={15}
+        minDistance={isMobile ? 3 : 4}
+        maxDistance={isMobile ? 12 : 15}
         minPolarAngle={Math.PI / 4}
         maxPolarAngle={Math.PI * 0.75}
+        touches={{
+          ONE: THREE.TOUCH.ROTATE,
+          TWO: THREE.TOUCH.DOLLY_PAN,
+        }}
+        enableZoom={true}
+        zoomSpeed={isMobile ? 1.2 : 1.0}
+        zoomToCursor={false}
       />
 
       <LightingRig colors={colors} pulseRef={pulseRef} />
@@ -798,28 +982,30 @@ function SceneContent({
         />
       )}
 
-      <EffectComposer multisampling={4}>
-        <Bloom
-          intensity={1.5}
-          luminanceThreshold={0.2}
-          luminanceSmoothing={0.9}
-          kernelSize={KernelSize.LARGE}
-          mipmapBlur
-        />
-        <ChromaticAberration
-          offset={new THREE.Vector2(0.0005, 0.0005)}
-          radialModulation={false}
-          modulationOffset={0}
-          blendFunction={BlendFunction.NORMAL}
-        />
-        <DepthOfField
-          focusDistance={0.01}
-          focalLength={0.05}
-          bokehScale={2}
-          height={480}
-        />
-        <Vignette eskil={false} offset={0.1} darkness={0.5} />
-      </EffectComposer>
+      {config.enablePostProcessing && (
+        <EffectComposer multisampling={isMobile ? 2 : 4}>
+          <Bloom
+            intensity={config.bloomIntensity}
+            luminanceThreshold={0.2}
+            luminanceSmoothing={0.9}
+            kernelSize={isMobile ? KernelSize.MEDIUM : KernelSize.LARGE}
+            mipmapBlur
+          />
+          <ChromaticAberration
+            offset={new THREE.Vector2(0.0005, 0.0005)}
+            radialModulation={false}
+            modulationOffset={0}
+            blendFunction={BlendFunction.NORMAL}
+          />
+          <DepthOfField
+            focusDistance={0.01}
+            focalLength={0.05}
+            bokehScale={isMobile ? 1 : 2}
+            height={isMobile ? 240 : 480}
+          />
+          <Vignette eskil={false} offset={0.1} darkness={0.5} />
+        </EffectComposer>
+      )}
 
       <AdaptiveDpr pixelated />
       <Preload all />
@@ -835,6 +1021,23 @@ export default function StudioAnwarScene({
   interactionHeat = 0,
   autoRotate = false,
 }: StudioAnwarSceneProps) {
+  const config = getOptimizedConfig();
+  const { isMobile } = getDeviceInfo();
+  
+  // Enhance with our new device capabilities hook
+  const { capabilities, optimizedSettings } = useDeviceCapabilities();
+  
+  // Use the more sophisticated settings when available
+  const finalConfig = {
+    ...config,
+    // Override with more accurate settings from our enhanced hook
+    dpr: optimizedSettings.dpr,
+    enablePostProcessing: optimizedSettings.enablePostProcessing && config.enablePostProcessing,
+    shadowMapSize: optimizedSettings.shadowMapSize,
+    maxLights: Math.min(config.maxLights, optimizedSettings.maxLights),
+    bloomIntensity: Math.min(config.bloomIntensity, optimizedSettings.bloomIntensity),
+  };
+  
   return (
     <div
       style={{
@@ -847,14 +1050,33 @@ export default function StudioAnwarScene({
     >
       <Canvas
         gl={{
-          antialias: true,
+          antialias: optimizedSettings.antialias && !isMobile, // Enhanced logic
           toneMapping: THREE.ACESFilmicToneMapping,
           outputColorSpace: THREE.SRGBColorSpace,
           powerPreference: 'high-performance',
+          alpha: false, // Disable alpha for better performance
+          preserveDrawingBuffer: false, // Disable for better performance
         }}
-        dpr={[1, 2]}
-        camera={{ position: [5, 3, 8], fov: 50, near: 0.1, far: 100 }}
-        shadows
+        dpr={finalConfig.dpr as [number, number]}
+        camera={{ 
+          position: getCameraPosition(), 
+          fov: optimizedSettings.cameraFov, // Use enhanced FOV calculation
+          near: 0.1, 
+          far: 100 
+        }}
+        shadows={optimizedSettings.enableShadows && finalConfig.maxLights > 2}
+        onCreated={(state) => {
+          // Enhanced mobile optimization
+          if (capabilities.isMobile || capabilities.isLowEndDevice) {
+            state.gl.setPixelRatio(Math.min(window.devicePixelRatio, finalConfig.dpr[1]));
+            
+            // Configure shadows for mobile
+            if (state.gl.shadowMap && optimizedSettings.enableShadows) {
+              state.gl.shadowMap.type = capabilities.isLowEndDevice ? 
+                THREE.BasicShadowMap : THREE.PCFSoftShadowMap;
+            }
+          }
+        }}
       >
         <React.Suspense fallback={null}>
           <SceneContent

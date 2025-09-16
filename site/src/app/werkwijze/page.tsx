@@ -46,14 +46,14 @@ const steps = [
 
 export default function Werkwijze() {
   return (
-    <>
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+    <main className="content-safe-top pt-20 md:pt-24">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+        <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 glow-text">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 glow-text">
               Werkwijze — website laten maken: van intake tot launch
             </h1>
-            <p className="text-xl text-cyan-400 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-cyan-400 max-w-2xl mx-auto">
               Een bewezen proces dat resultaat garandeert
             </p>
           </div>
@@ -72,17 +72,17 @@ export default function Werkwijze() {
             </Suspense>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
             {steps.map((step, i) => (
               <div
                 key={i}
                 className="glass p-6 rounded-lg hover:border-cyan-500/50 transition-all"
               >
                 <div className="flex items-center mb-4">
-                  <span className="text-2xl font-bold text-cyan-400 mr-3">
+                  <span className="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-400 mr-3">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <h3 className="text-xl font-semibold">{step.name}</h3>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">{step.name}</h3>
                 </div>
                 <p className="text-gray-300">{step.description}</p>
               </div>
@@ -91,14 +91,14 @@ export default function Werkwijze() {
         </div>
       </section>
 
-      <section className="py-20 px-6 bg-cosmic-800/20">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-cosmic-800/20">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12">
             Onze Principes
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="glass p-8 rounded-lg">
-              <h3 className="text-2xl font-bold mb-4 text-cyan-400">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <div className="glass p-6 sm:p-7 md:p-8 rounded-lg">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-cyan-400">
                 Transparantie
               </h3>
               <p className="text-gray-300">
@@ -106,8 +106,8 @@ export default function Werkwijze() {
                 we staan.
               </p>
             </div>
-            <div className="glass p-8 rounded-lg">
-              <h3 className="text-2xl font-bold mb-4 text-magenta-400">
+            <div className="glass p-6 sm:p-7 md:p-8 rounded-lg">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-magenta-400">
                 Innovatie
               </h3>
               <p className="text-gray-300">
@@ -115,16 +115,16 @@ export default function Werkwijze() {
                 geven.
               </p>
             </div>
-            <div className="glass p-8 rounded-lg">
-              <h3 className="text-2xl font-bold mb-4 text-cyan-400">
+            <div className="glass p-6 sm:p-7 md:p-8 rounded-lg">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-cyan-400">
                 Kwaliteit
               </h3>
               <p className="text-gray-300">
                 Geen compromissen. Elk detail wordt geperfectioneerd.
               </p>
             </div>
-            <div className="glass p-8 rounded-lg">
-              <h3 className="text-2xl font-bold mb-4 text-magenta-400">
+            <div className="glass p-6 sm:p-7 md:p-8 rounded-lg">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-magenta-400">
                 Partnership
               </h3>
               <p className="text-gray-300">
@@ -138,7 +138,7 @@ export default function Werkwijze() {
 
       <section
         id="seo-content"
-        className="prose prose-invert max-w-none px-6 md:px-8 lg:px-12 py-12 md:py-16"
+        className="prose prose-invert max-w-none py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8"
       >
         <h1>Een Duidelijk Proces voor een Succesvolle Website</h1>
         <p>
@@ -207,6 +207,6 @@ export default function Werkwijze() {
           </a>
         </p>
       </section>
-    </>
+    </main>
   );
 }

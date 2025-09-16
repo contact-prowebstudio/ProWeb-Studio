@@ -6,6 +6,7 @@ import ParallaxRig from '@/three/ParallaxRig';
 import StarsShell from '@/three/StarsShell';
 import FacetedSolid from '@/three/FacetedSolid';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useDeviceCapabilities, getOptimizedParticleCount } from '@/hooks/useDeviceCapabilities';
 
 // Floating light particles
 function LightParticles({
@@ -110,10 +111,16 @@ function VolumetricLight() {
 
 export default function HeroScene() {
   const reduced = useReducedMotion();
+  const { capabilities, optimizedSettings } = useDeviceCapabilities();
+  
+  // Optimize settings based on device capabilities
   const spin = reduced ? 0.3 : 0.85;
-  const factor = reduced ? 0.05 : 0.14;
-  const starCount = reduced ? 600 : 1200;
-  const particleCount = reduced ? 0 : 50;
+  const factor = reduced ? 0.05 : (capabilities.isMobile ? 0.08 : 0.14);
+  const starCount = getOptimizedParticleCount(reduced ? 600 : 1200, capabilities);
+  const particleCount = reduced ? 0 : getOptimizedParticleCount(50, capabilities);
+  
+  // Adjust lighting intensity for mobile
+  const lightIntensity = capabilities.isMobile ? 0.8 : 1.0;
 
   return (
     <>
@@ -122,45 +129,65 @@ export default function HeroScene() {
           <FacetedSolid spin={spin} />
         </group>
         <StarsShell count={starCount} radius={20} opacity={0.55} size={0.007} />
-        {!reduced && <LightParticles count={particleCount} reduced={reduced} />}
+        {!reduced && particleCount > 0 && (
+          <LightParticles count={particleCount} reduced={reduced} />
+        )}
       </ParallaxRig>
 
-      {/* Enhanced lighting setup */}
-      <ambientLight intensity={0.4} />
+      {/* Enhanced lighting setup - optimized for mobile */}
+      <ambientLight intensity={0.4 * lightIntensity} />
 
       {/* Key light - main illumination */}
-      <directionalLight position={[4, 3, 5]} intensity={1.4} color="#ffffff" />
-
-      {/* Fill light - soften shadows */}
-      <directionalLight
-        position={[-3, 1, -2]}
-        intensity={0.6}
-        color="#a5f3fc"
+      <directionalLight 
+        position={[4, 3, 5]} 
+        intensity={1.4 * lightIntensity} 
+        color="#ffffff"
+        castShadow={optimizedSettings.enableShadows}
+        shadow-mapSize={[optimizedSettings.shadowMapSize, optimizedSettings.shadowMapSize]}
       />
+
+      {/* Fill light - soften shadows - only on desktop/tablet */}
+      {!capabilities.isLowEndDevice && (
+        <directionalLight
+          position={[-3, 1, -2]}
+          intensity={0.6 * lightIntensity}
+          color="#a5f3fc"
+        />
+      )}
 
       {/* Rim light - edge highlighting */}
       <pointLight
         position={[-5, -2, 1]}
-        intensity={0.8}
+        intensity={0.8 * lightIntensity}
         color="#f0abfc"
         distance={8}
         decay={2}
+        castShadow={optimizedSettings.enableShadows && !capabilities.isMobile}
       />
 
-      {/* Accent light - color pop */}
-      <pointLight
-        position={[0, 4, 0]}
-        intensity={0.5}
-        color="#22d3ee"
-        distance={10}
-        decay={2}
+      {/* Accent light - color pop - disabled on low-end devices */}
+      {!capabilities.isLowEndDevice && (
+        <pointLight
+          position={[0, 4, 0]}
+          intensity={0.5 * lightIntensity}
+          color="#22d3ee"
+          distance={10}
+          decay={2}
+        />
+      )}
+
+      {/* Volumetric effect - only on high-performance devices */}
+      {!reduced && !capabilities.isMobile && <VolumetricLight />}
+
+      {/* Subtle fog for depth - adjust intensity for mobile */}
+      <fog 
+        attach="fog" 
+        args={[
+          '#030015', 
+          capabilities.isMobile ? 12 : 15, 
+          capabilities.isMobile ? 28 : 35
+        ]} 
       />
-
-      {/* Volumetric effect */}
-      {!reduced && <VolumetricLight />}
-
-      {/* Subtle fog for depth - much lighter */}
-      <fog attach="fog" args={['#030015', 15, 35]} />
     </>
   );
 }

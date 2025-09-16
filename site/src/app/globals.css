@@ -98,6 +98,34 @@
     opacity: 0;
   }
 
+  /* Touch target utilities for accessibility */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+
+  .touch-target-inline {
+    @apply min-h-[44px] inline-flex items-center;
+  }
+
+  /* Enhanced focus and hover states for accessibility */
+  .focus-enhanced {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 transition-all duration-200;
+  }
+
+  .hover-enhanced {
+    @apply hover:bg-white/5 transition-colors duration-200;
+  }
+
+  /* Accessible button states */
+  .btn-base {
+    @apply min-h-[44px] px-6 py-3 font-semibold rounded-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-cosmic-900;
+  }
+
+  /* Accessible link states */
+  .link-base {
+    @apply min-h-[44px] inline-flex items-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cosmic-900 rounded;
+  }
+
   .animate-slide-up {
     animation: slideUp 1s ease-out forwards;
     opacity: 0;
@@ -385,5 +413,49 @@
 @media (max-width: 480px) {
   header .absolute.left-3 {
     left: 0.5rem; /* Move logo even more to the left on very small screens */
+  }
+}
+
+/* Safe area utilities */
+@layer utilities {
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .px-safe {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  /* Header with safe area */
+  .header-safe {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+  
+  /* Content with safe top */
+  .content-safe-top {
+    padding-top: max(5rem, calc(4rem + env(safe-area-inset-top)));
+  }
+  
+  @media (min-width: 768px) {
+    .content-safe-top {
+      padding-top: max(6rem, calc(5rem + env(safe-area-inset-top)));
+    }
+  }
+  
+  /* Minimum touch target utilities */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Enhanced touch target for better accessibility */
+  .touch-target-lg {
+    min-height: 48px;
+    min-width: 48px;
   }
 }

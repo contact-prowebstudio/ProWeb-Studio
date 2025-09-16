@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { useRef, useMemo, useState } from 'react';
 import { useFrame, Canvas } from '@react-three/fiber';
+import { useDeviceCapabilities, getOptimizedParticleCount } from '@/hooks/useDeviceCapabilities';
 
 function useReducedMotion() {
   if (typeof window === 'undefined') return false;
@@ -193,9 +194,12 @@ function OrbitalRings() {
 // Enhanced particle system with geometric patterns
 function GeometricParticles() {
   const pointsRef = useRef<THREE.Points>(null!);
+  const { capabilities } = useDeviceCapabilities();
 
   const { geometry, material } = useMemo(() => {
-    const count = 150;
+    // Optimize particle count based on device capabilities
+    const baseCount = 150;
+    const count = getOptimizedParticleCount(baseCount, capabilities);
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
     const sizes = new Float32Array(count);
@@ -218,7 +222,9 @@ function GeometricParticles() {
       colors[i * 3 + 1] = 0.7 + Math.sin(colorIndex * Math.PI) * 0.3; // G
       colors[i * 3 + 2] = 0.9; // B
 
-      sizes[i] = Math.random() * 0.04 + 0.015; // Larger particle sizes
+      // Adjust particle size for mobile
+      const baseSize = capabilities.isMobile ? 0.025 : 0.04;
+      sizes[i] = Math.random() * baseSize + (capabilities.isMobile ? 0.01 : 0.015);
     }
 
     const geo = new THREE.BufferGeometry();
@@ -227,32 +233,36 @@ function GeometricParticles() {
     geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
     const mat = new THREE.PointsMaterial({
-      size: 0.035, // Increased base particle size
+      size: capabilities.isMobile ? 0.025 : 0.035, // Smaller particles on mobile
       vertexColors: true,
       transparent: true,
-      opacity: 0.9, // Slightly more opaque for better visibility
+      opacity: capabilities.isMobile ? 0.7 : 0.9, // Reduce opacity on mobile for performance
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       sizeAttenuation: true,
     });
 
     return { geometry: geo, material: mat };
-  }, []);
+  }, [capabilities]);
 
   useFrame((state) => {
     if (!pointsRef.current) return;
 
     const time = state.clock.elapsedTime;
-    pointsRef.current.rotation.y = time * 0.05;
-    pointsRef.current.rotation.x = time * 0.03;
+    // Reduce rotation speed on mobile to save performance
+    const rotationSpeed = capabilities.isMobile ? 0.5 : 1.0;
+    pointsRef.current.rotation.y = time * 0.05 * rotationSpeed;
+    pointsRef.current.rotation.x = time * 0.03 * rotationSpeed;
 
-    // Animate particle sizes
-    const sizes = geometry.attributes.size;
-    for (let i = 0; i < sizes.count; i++) {
-      const originalSize = 0.01 + (i / sizes.count) * 0.02;
-      sizes.array[i] = originalSize + Math.sin(time * 3 + i * 0.1) * 0.005;
+    // Animate particle sizes - simpler animation on mobile
+    if (!capabilities.isMobile) {
+      const sizes = geometry.attributes.size;
+      for (let i = 0; i < sizes.count; i++) {
+        const originalSize = 0.01 + (i / sizes.count) * 0.02;
+        sizes.array[i] = originalSize + Math.sin(time * 3 + i * 0.1) * 0.005;
+      }
+      sizes.needsUpdate = true;
     }
-    sizes.needsUpdate = true;
   });
 
   return <points ref={pointsRef} geometry={geometry} material={material} />;
@@ -260,62 +270,81 @@ function GeometricParticles() {
 
 export default function HexagonalPrism() {
   const reduced = useReducedMotion();
+  const { capabilities, optimizedSettings } = useDeviceCapabilities();
 
   return (
     <Canvas
-      dpr={[1, 2]}
-      camera={{ fov: 45, position: [0, 0, 9] }}
-      gl={{ alpha: true, antialias: true }}
+      dpr={optimizedSettings.dpr}
+      camera={{ 
+        fov: optimizedSettings.cameraFov, 
+        position: [0, 0, capabilities.isMobile ? 11 : 9] // Pull back camera on mobile
+      }}
+      gl={{ 
+        alpha: true, 
+        antialias: optimizedSettings.antialias 
+      }}
+      shadows={optimizedSettings.enableShadows}
       onCreated={({ gl }) => gl.setClearAlpha(0)}
       style={{ background: 'transparent' }}
     >
-      <group scale={0.85}>
+      <group scale={capabilities.isMobile ? 0.7 : 0.85}>
         <AnimatedDodecahedron />
-        {!reduced && <OrbitalRings />}
+        {!reduced && !capabilities.isLowEndDevice && <OrbitalRings />}
         {!reduced && <GeometricParticles />}
 
-        {/* Professional lighting setup - enhanced for larger model */}
-        <ambientLight intensity={0.25} color="#a5f3fc" />
+        {/* Professional lighting setup - optimized for mobile */}
+        <ambientLight 
+          intensity={capabilities.isMobile ? 0.35 : 0.25} 
+          color="#a5f3fc" 
+        />
 
-        {/* Key light - repositioned for larger scale */}
+        {/* Key light */}
         <directionalLight
           position={[4, 4, 4]}
-          intensity={1.8}
+          intensity={capabilities.isMobile ? 1.4 : 1.8}
           color="#ffffff"
+          castShadow={optimizedSettings.enableShadows}
         />
 
-        {/* Fill light - enhanced */}
-        <directionalLight
-          position={[-3, 1.5, 3]}
-          intensity={1.0}
-          color="#22d3ee"
-        />
+        {/* Fill light - only on non-mobile devices */}
+        {!capabilities.isMobile && (
+          <directionalLight
+            position={[-3, 1.5, 3]}
+            intensity={1.0}
+            color="#22d3ee"
+          />
+        )}
 
-        {/* Rim lights for dramatic effect - adjusted for larger geometry */}
+        {/* Rim lights - reduced on mobile */}
         <pointLight
           position={[5, 0, -3]}
-          intensity={1.5}
+          intensity={capabilities.isMobile ? 1.0 : 1.5}
           color="#8b5cf6"
           distance={12}
           decay={2}
         />
 
-        <pointLight
-          position={[-4, 4, 1.5]}
-          intensity={1.1}
-          color="#f0abfc"
-          distance={10}
-          decay={2}
-        />
+        {/* Secondary rim light - only on high-performance devices */}
+        {!capabilities.isLowEndDevice && (
+          <pointLight
+            position={[-4, 4, 1.5]}
+            intensity={capabilities.isMobile ? 0.8 : 1.1}
+            color="#f0abfc"
+            distance={10}
+            decay={2}
+          />
+        )}
 
-        {/* Accent lights - expanded range */}
-        <pointLight
-          position={[0, -6, 3]}
-          intensity={0.9}
-          color="#06b6d4"
-          distance={14}
-          decay={1.5}
-        />
+        {/* Accent light - desktop only */}
+        {!capabilities.isMobile && (
+          <pointLight
+            position={[0, -6, 3]}
+            intensity={0.9}
+            color="#06b6d4"
+            distance={14}
+            decay={1.5}
+          />
+        )}
       </group>
     </Canvas>
   );

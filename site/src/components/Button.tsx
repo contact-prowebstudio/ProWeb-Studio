@@ -14,8 +14,8 @@ export default function Button({
   size = 'normal',
 }: ButtonProps) {
   const baseClasses =
-    'inline-block font-semibold rounded-lg transition-all duration-300 magnetic-hover relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-cosmic-900';
-  const sizeClasses = size === 'large' ? 'px-10 py-4 text-lg' : 'px-8 py-3';
+    'inline-block font-semibold rounded-lg transition-all duration-300 magnetic-hover relative overflow-hidden group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-cosmic-900 min-h-[44px] touch-target';
+  const sizeClasses = size === 'large' ? 'px-6 py-3 sm:px-8 sm:py-3.5 md:px-10 md:py-4 text-base sm:text-lg min-h-[44px]' : 'px-6 py-3 sm:px-8 sm:py-3.5 text-base min-h-[44px]';
   const variantClasses =
     variant === 'primary'
       ? 'bg-gradient-to-r from-cyan-500 to-magenta-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25 text-black'
