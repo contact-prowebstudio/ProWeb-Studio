@@ -284,8 +284,8 @@ export default function SpeeltuinClient() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-8 sm:py-12 md:py-16 lg:py-24 px-4 md:px-6 lg:px-8 bg-cosmic-900 rounded-lg mx-2 sm:mx-0">
-          <div className="max-w-4xl mx-auto text-center">
+        <section className="py-8 sm:py-12 md:py-16 lg:py-24 px-4 md:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center glass rounded-2xl p-6 sm:p-8 md:p-10">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 leading-tight break-words">
               Klaar om uw eigen ervaring te bouwen?
             </h2>
@@ -296,7 +296,7 @@ export default function SpeeltuinClient() {
             </p>
             <Link
               href="/contact"
-              className="touch-target inline-block px-6 py-3 sm:px-8 sm:py-3.5 md:px-10 md:py-4 bg-gradient-to-r from-cyan-500 to-magenta-500 rounded-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/25 text-base sm:text-lg"
+              className="touch-target inline-block px-6 py-3 sm:px-7 sm:py-3 md:px-8 md:py-3.5 bg-gradient-to-r from-cyan-500 to-magenta-500 rounded-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/25 text-base sm:text-lg"
             >
               Plan een strategiesessie
             </Link>
@@ -306,7 +306,7 @@ export default function SpeeltuinClient() {
 
       <section
         id="seo-content"
-        className="prose prose-sm sm:prose-base prose-invert max-w-prose mx-auto px-4 md:px-6 lg:px-8 py-8 sm:py-12 md:py-16 leading-relaxed overflow-x-hidden"
+        className="prose prose-sm sm:prose-base prose-invert max-w-5xl px-4 md:px-6 lg:px-8 py-8 sm:py-12 md:py-16 leading-relaxed overflow-x-hidden mx-auto md:mx-0"
       >
         <h1>Speeltuin: 3D Webtechnologie in de Praktijk</h1>
         <p>

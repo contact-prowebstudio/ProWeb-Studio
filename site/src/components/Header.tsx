@@ -24,11 +24,12 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 w-full z-40 transition-all duration-300 header-safe ${
+      className={`fixed top-0 w-full z-40 transition-all duration-300 bg-transparent ${
         isScrolled
           ? 'glass py-4 backdrop-blur-xl border-b border-cosmic-700/30'
           : 'py-6'
       }`}
+      style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
     >
       <div className="max-w-6xl mx-auto px-6 flex items-center">
         <div className="absolute left-3 md:left-6">

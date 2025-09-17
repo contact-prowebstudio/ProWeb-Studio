@@ -129,7 +129,17 @@ export default function Diensten() {
   };
 
   return (
-    <main className="pt-20 md:pt-24">
+    <main className="pt-20 md:pt-24 relative overflow-hidden">
+      {/* Full-bleed page background to unify top edge */}
+      <Image
+        src="/assets/nebula_services_background.png"
+        alt="Nebula achtergrond"
+        fill
+        priority
+        fetchPriority="high"
+        sizes="100vw"
+        className="object-cover opacity-50 pointer-events-none -z-10"
+      />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "/" },
@@ -165,16 +175,7 @@ export default function Diensten() {
 
       {/* Hero section with 3D elements */}
       <section className="relative min-h-[75svh] md:min-h-[70vh] overflow-hidden flex items-center content-safe-top">
-        <Image
-          src="/assets/nebula_services_background.png"
-          alt="Nebula achtergrond met zwevende geometrische vormen"
-          fill
-          priority
-          fetchPriority="high"
-          sizes="(max-width: 768px) 100vw, 1200px"
-          className="object-cover opacity-50"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-cosmic-900/40 to-cosmic-900/80" />
+  <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-cosmic-900/20 to-cosmic-900/40" />
 
         <Suspense
           fallback={<div className="absolute inset-0 bg-cosmic-900/50" />}
@@ -301,8 +302,10 @@ export default function Diensten() {
       </section>
 
       {/* Call to action */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-cosmic-900">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none -z-10 bg-gradient-to-b from-transparent via-cosmic-900/15 to-transparent" />
+        <div className="absolute inset-0 pointer-events-none -z-10 portal-gradient opacity-40" />
+        <div className="max-w-4xl mx-auto text-center glass rounded-2xl p-6 sm:p-8 md:p-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 leading-tight">
             Op maat gemaakte oplossingen
           </h2>
@@ -313,14 +316,14 @@ export default function Diensten() {
           <div className="flex gap-6 justify-center flex-wrap">
             <a
               href="/contact"
-              className="px-6 py-3 sm:px-8 sm:py-3.5 md:px-10 md:py-4 bg-gradient-to-r from-cyan-500 to-magenta-500 rounded-lg font-semibold hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/25 relative overflow-hidden group"
+              className="px-6 py-3 sm:px-7 sm:py-3 md:px-8 md:py-3.5 bg-gradient-to-r from-cyan-500 to-magenta-500 rounded-lg font-semibold hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/25 relative overflow-hidden group"
             >
               <span className="relative z-10">Plan een intake</span>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-magenta-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </a>
             <a
               href="/speeltuin"
-              className="px-6 py-3 sm:px-8 sm:py-3.5 md:px-10 md:py-4 border border-cyan-400/60 text-cyan-100 rounded-lg hover:bg-cyan-400/10 transition-all duration-300 hover:border-cyan-400/80 hover:shadow-lg group relative overflow-hidden"
+              className="px-6 py-3 sm:px-7 sm:py-3 md:px-8 md:py-3.5 border border-cyan-400/60 text-cyan-100 rounded-lg hover:bg-cyan-400/10 transition-all duration-300 hover:border-cyan-400/80 hover:shadow-lg group relative overflow-hidden"
             >
               <span className="relative z-10 flex items-center gap-2">
                 Ervaar onze technologie

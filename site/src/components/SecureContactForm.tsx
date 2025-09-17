@@ -271,15 +271,6 @@ export default function SecureContactForm() {
   return (
     <>
       <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 xl:py-32 px-4 sm:px-6 min-h-[60vh] grid place-items-center overflow-hidden">
-        <Image
-          src="/assets/glowing_beacon_contact.png"
-          alt="Lichtbaken dat de weg wijst — contact achtergrond"
-          fill
-          priority
-          fetchPriority="high"
-          sizes="(max-width: 768px) 100vw, 1200px"
-          className="object-cover object-center opacity-30 pointer-events-none"
-        />
         <div className="relative z-10 w-full max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="space-y-8">
             <div className="space-y-4">

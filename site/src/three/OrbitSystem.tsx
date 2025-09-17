@@ -48,11 +48,11 @@ function Planet({ radius, speed, distance, color }: PlanetProps) {
 
 export default function OrbitSystem() {
   return (
-    <Scene3D>
+    <Scene3D adaptive={false}>
       <ambientLight intensity={0.3} />
-      <pointLight position={[0, 0, 0]} intensity={2} color="#ffaa00" />
+  <pointLight position={[0, 0, 0]} intensity={2.2} color="#ffaa00" />
 
-      <Sphere args={[0.5, 32, 16]} position={[0, 0, 0]}>
+      <Sphere args={[0.54, 48, 24]} position={[0, -0.02, 0]}>
         <meshStandardMaterial
           color="#ffaa00"
           emissive="#ffaa00"

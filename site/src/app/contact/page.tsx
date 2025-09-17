@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import SecureContactForm from '@/components/SecureContactForm';
 
 export const dynamic = 'force-static';
@@ -24,7 +25,17 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="content-safe-top pt-20 md:pt-24">
+    <main className="content-safe-top pt-20 md:pt-24 relative overflow-hidden">
+      {/* Full-bleed background to avoid top seam */}
+      <Image
+        src="/assets/glowing_beacon_contact.png"
+        alt="Contact achtergrond"
+        fill
+        priority
+        fetchPriority="high"
+        sizes="100vw"
+        className="object-cover object-center opacity-30 pointer-events-none -z-10"
+      />
       <SecureContactForm />
       <section
         id="seo-content"

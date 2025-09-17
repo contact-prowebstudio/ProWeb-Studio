@@ -33,7 +33,6 @@ export const metadata: Metadata = {
   ],
 };
 
-import HeroBackground from '@/components/HeroBackground';
 import dynamicImport from 'next/dynamic';
 
 const HeroCanvas = dynamicImport(() => import('@/components/HeroCanvas'), {
@@ -81,26 +80,27 @@ function CaseCard({ title, metric, desc }: CaseCardProps) {
 
 export default function HomePage() {
   return (
-    <main className="relative content-safe-top pt-20 md:pt-24">
+    <main className="relative content-safe-top pt-20 md:pt-24 overflow-hidden">
+      {/* Full-bleed page background to unify the top edge */}
+      <Image
+        src="/assets/hero/nebula_helix.avif"
+        alt="Kosmische nevel achtergrond voor webontwikkeling en 3D ervaringen"
+        fill
+        priority
+        fetchPriority="high"
+        sizes="100vw"
+        className="object-cover opacity-60 pointer-events-none -z-10"
+      />
       {/* HERO SECTION */}
       <section
         aria-label="Hero"
         className="homepage-hero relative min-h-[92vh] grid place-items-center overflow-hidden"
       >
-        {/* Background cosmic image */}
-        <Image
-          src="/assets/hero/nebula_helix.avif"
-          alt="Kosmische nevel achtergrond voor webontwikkeling en 3D ervaringen"
-          fill
-          priority
-          fetchPriority="high"
-          sizes="(max-width: 768px) 100vw, 1200px"
-          className="object-cover opacity-60"
-        />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/20 to-transparent z-0" />
 
         {/* 3D Portal Scene */}
         <div className="absolute inset-0">
-          <HeroBackground />
+          {/* Global HeroBackground is now rendered in RootLayout to unify the top edge site-wide. */}
           <HeroCanvas>
             <HeroScene />
           </HeroCanvas>

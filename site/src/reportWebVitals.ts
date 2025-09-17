@@ -40,16 +40,20 @@ export function reportWebVitals(metric: BaseMetric) {
     rating: getVitalRating(metric.name, metric.value),
   };
 
-  // Send to our API endpoint
+  // Send to our API endpoint only in production and when explicitly enabled.
+  // Avoid noisy 401s during local development.
   if (typeof window !== 'undefined') {
-    fetch('/api/vitals', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(vitalMetric),
-    }).catch(() => {
-      // Silently fail - don't throw errors for analytics
-    });
+    const isProd = process.env.NODE_ENV === 'production';
+    const enabled = process.env.NEXT_PUBLIC_ENABLE_WEB_VITALS === 'true';
+    if (isProd && enabled) {
+      fetch('/api/vitals', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(vitalMetric),
+        keepalive: true,
+      }).catch(() => {
+        // Silently fail - don't throw errors for analytics
+      });
+    }
   }
 }

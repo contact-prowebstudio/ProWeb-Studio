@@ -20,8 +20,10 @@ export default function FacetedSolid({
   const [hovered, setHovered] = useState(false);
 
   const { geometry, material } = useMemo(() => {
-    // Create a more complex geometry with subdivision
-    const baseGeom = new THREE.IcosahedronGeometry(1.2, 1).toNonIndexed();
+  // Create a more complex geometry with subdivision
+  // Ensure we only call toNonIndexed() when necessary to avoid warnings.
+  const tempGeom = new THREE.IcosahedronGeometry(1.2, 1);
+  const baseGeom = tempGeom.index ? tempGeom.toNonIndexed() : tempGeom;
     const pos = baseGeom.getAttribute('position') as THREE.BufferAttribute;
     const v = new THREE.Vector3();
 

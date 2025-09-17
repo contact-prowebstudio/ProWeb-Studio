@@ -69,17 +69,24 @@ export default function Werkwijze() {
           </div>
 
           <div className="relative h-96 mb-12">
+            {/* Subtle ambient glow behind the composition */}
+            <div aria-hidden className="absolute inset-0 pointer-events-none -z-10 portal-gradient opacity-60 blur-3xl" />
             <Image
               src="/assets/team_core_star.png"
               alt="Centrale ster die ons proces symboliseert"
               fill
-              className="object-contain opacity-30"
+              priority
+              quality={90}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-contain object-center mix-screen image-soft-glow mask-soft-edges no-pointer z-10 translate-y-[2%] md:translate-y-[1.5%]"
             />
-            <Suspense fallback={<div className="absolute inset-0" />}>
-              <ErrorBoundary>
-                <OrbitSystem />
-              </ErrorBoundary>
-            </Suspense>
+            <div className="absolute inset-0 z-0 pointer-events-none">
+              <Suspense fallback={<div className="absolute inset-0" />}> 
+                <ErrorBoundary>
+                  <OrbitSystem />
+                </ErrorBoundary>
+              </Suspense>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">

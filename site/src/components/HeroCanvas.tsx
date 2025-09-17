@@ -39,6 +39,16 @@ export default function HeroCanvas({ children, className }: Props) {
             gl.shadowMap.enabled = true;
             gl.shadowMap.type = THREE.PCFSoftShadowMap;
           }
+
+          // Improve hot-reload/dev stability by handling context loss gracefully.
+          const canvas = gl.domElement as HTMLCanvasElement;
+          const onLost = (e: Event) => {
+            // Prevent default to allow automatic context restoration.
+            e.preventDefault();
+          };
+          // Use string event name; not in HTMLElementEventMap in some TS DOM libs.
+          canvas.addEventListener('webglcontextlost', onLost as EventListener, { passive: false } as AddEventListenerOptions);
+          // Note: three will attempt to restore automatically; nothing else to do here.
         }}
         style={{ background: 'transparent' }}
       >

@@ -7,9 +7,10 @@ import { Preload, AdaptiveDpr, PerformanceMonitor } from '@react-three/drei';
 interface Scene3DProps {
   children: React.ReactNode;
   className?: string;
+  adaptive?: boolean; // enable AdaptiveDpr & PerformanceMonitor (defaults to true)
 }
 
-export default function Scene3D({ children, className }: Scene3DProps) {
+export default function Scene3D({ children, className, adaptive = true }: Scene3DProps) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -40,8 +41,8 @@ export default function Scene3D({ children, className }: Scene3DProps) {
       >
         <Suspense fallback={null}>
           {children}
-          <AdaptiveDpr />
-          <PerformanceMonitor />
+          {adaptive && <AdaptiveDpr />}
+          {adaptive && <PerformanceMonitor />}
           <Preload all />
         </Suspense>
       </Canvas>
