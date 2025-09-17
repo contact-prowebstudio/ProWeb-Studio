@@ -46,7 +46,7 @@ const contactSchema = z.object({
       return !spamPatterns.some(pattern => pattern.test(msg));
     }, 'Message contains prohibited content'),
   // Honeypot field (should be empty)
-  website: z.string().max(0, 'Bot detected').optional(),
+  website: z.string().max(0).optional(),
   // reCAPTCHA token
   recaptchaToken: z.string().min(1, 'reCAPTCHA verification required'),
   // Timestamp to prevent replay attacks
@@ -178,13 +178,14 @@ export async function POST(req: NextRequest) {
 
     const { name, email, phone, projectTypes, message, website, recaptchaToken } = parsed.data;
 
-    // Check honeypot field
+    // Check honeypot field - handle spam gracefully
     if (website && website.length > 0) {
       console.warn(`Honeypot triggered from ${clientIP}`);
-      const res = NextResponse.json(
-        { ok: false, error: 'Bot detected' },
-        { status: 400 },
-      );
+      // Return success response to avoid leaking spam detection signals
+      const res = NextResponse.json({ 
+        ok: true,
+        message: 'Bericht succesvol verzonden'
+      });
       res.headers.set('Cache-Control', 'no-store');
       return res;
     }

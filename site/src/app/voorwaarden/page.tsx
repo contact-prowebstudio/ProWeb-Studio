@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import LegalContentLayout from '@/components/LegalContentLayout';
 import { siteConfig } from '@/config/site.config';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
+
+// Get canonical URL from environment with fallback
+const SITE_URL = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prowebstudio.nl';
 
 export const dynamic = 'force-static';
 export const revalidate = 60 * 60 * 24;
@@ -17,7 +21,7 @@ export const metadata: Metadata = {
     title: 'Algemene voorwaarden – ProWeb Studio',
     description:
       'Voorwaarden voor offertes, overeenkomsten, levering, betaling, intellectuele eigendom en aansprakelijkheid.',
-    url: 'https://prowebstudio.nl/voorwaarden',
+    url: `${SITE_URL}/voorwaarden`,
     type: 'website',
     locale: 'nl_NL',
   },
@@ -30,7 +34,14 @@ export default function VoorwaardenPage() {
   const today = new Date().toISOString().slice(0, 10);
 
   return (
-    <LegalContentLayout>
+    <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Voorwaarden", url: "/voorwaarden" }
+        ]}
+      />
+      <LegalContentLayout>
       <h1>Algemene Voorwaarden</h1>
 
       <p>
@@ -197,5 +208,6 @@ export default function VoorwaardenPage() {
         </ol>
       </section>
     </LegalContentLayout>
+    </>
   );
 }

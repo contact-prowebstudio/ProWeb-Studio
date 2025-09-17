@@ -7,6 +7,10 @@ export const revalidate = 60 * 60 * 24;
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
+
+// Get canonical URL from environment with fallback
+const SITE_URL = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prowebstudio.nl';
 
 export const metadata: Metadata = {
   title: 'Over Ons – Architecten van de Digitale Toekomst | ProWeb Studio',
@@ -18,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Over Ons – ProWeb Studio',
     description: 'Leer ons team en onze filosofie kennen. Wij bouwen de websites van morgen, vandaag.',
-    url: 'https://prowebstudio.nl/over-ons',
+    url: `${SITE_URL}/over-ons`,
     type: 'website',
     locale: 'nl_NL',
   },
@@ -32,6 +36,12 @@ const FlowingRibbons = dynamicImport(() => import('@/three/FlowingRibbons'), {
 export default function OverOnsPage() {
   return (
     <main className="content-safe-top pt-20 md:pt-24">
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Over Ons", url: "/over-ons" }
+        ]}
+      />
       <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 text-center overflow-hidden">
         <div className="relative z-10 max-w-4xl mx-auto">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 glow-text">

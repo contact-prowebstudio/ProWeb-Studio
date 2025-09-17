@@ -1,9 +1,10 @@
 'use client';
 import { useState } from 'react';
+import { siteConfig } from '@/config/site.config';
+
 export default function CalEmbed() {
   const [open, setOpen] = useState(false);
-  const url =
-    process.env.NEXT_PUBLIC_CALCOM_URL || 'https://cal.com/your-handle';
+  const url = siteConfig.links.calcom;
   return (
     <>
       <button

@@ -104,11 +104,33 @@ const nextConfig = {
           // Enhanced referrer policy
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           // Permissions policy
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { 
+            key: 'Permissions-Policy', 
+            value: [
+              'accelerometer=()',
+              'autoplay=()',
+              'camera=()',
+              'cross-origin-isolated=()',
+              'display-capture=()',
+              'encrypted-media=()',
+              'fullscreen=(self)',
+              'geolocation=()',
+              'gyroscope=()',
+              'keyboard-map=()',
+              'magnetometer=()',
+              'microphone=()',
+              'midi=()',
+              'payment=()',
+              'picture-in-picture=()',
+              'publickey-credentials-get=()',
+              'screen-wake-lock=()',
+              'sync-xhr=()',
+              'usb=()',
+              'xr-spatial-tracking=()'
+            ].join(', ')
+          },
           // DNS prefetch control
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
-          // XSS Protection (legacy but still useful)
-          { key: 'X-XSS-Protection', value: '1; mode=block' },
           // Cross-domain policies
           { key: 'X-Permitted-Cross-Domain-Policies', value: 'none' },
           // Cross-Origin policies
@@ -176,17 +198,27 @@ const nextConfig = {
           { key: 'Service-Worker-Allowed', value: '/' },
         ],
       },
-      // Contact form specific headers
+      // Contact form specific headers with comprehensive CSP-Report-Only
       {
         source: '/contact',
         headers: [
           { 
             key: 'Content-Security-Policy-Report-Only', 
             value: [
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://plausible.io",
-              "script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://plausible.io",
-              "frame-src https://www.google.com",
-              "img-src 'self' data: https: https://*.googleusercontent.com",
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://js.cal.com https://plausible.io https://va.vercel-scripts.com",
+              "script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://plausible.io https://va.vercel-scripts.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "img-src 'self' data: https: blob:",
+              "media-src 'self' https:",
+              "frame-src 'self' https://www.google.com https://cal.com https://app.cal.com",
+              "connect-src 'self' https://api.cal.com https://www.google-analytics.com https://plausible.io https://vitals.vercel-insights.com https://va.vercel-scripts.com",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "frame-ancestors 'none'",
+              "form-action 'self'",
+              "upgrade-insecure-requests",
               "report-uri /api/csp-report"
             ].join('; ')
           },

@@ -31,13 +31,11 @@ export default function SEOSchema({
   pageDescription,
   breadcrumbs = [],
 }: SEOSchemaProps) {
-  const baseUrl = siteConfig.url;
-
   // Website schema
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': `${baseUrl}#website`,
+    '@id': `${SITE_URL}#website`,
     name: siteConfig.name,
     alternateName: [
       'ProWeb Studio Nederland',
@@ -48,38 +46,31 @@ export default function SEOSchema({
     url: abs('/'),
     inLanguage: 'nl-NL',
     copyrightYear: new Date().getFullYear(),
-    creator: {
-      '@type': 'Organization',
-      '@id': `${baseUrl}#business`,
-      name: siteConfig.name,
-    },
     publisher: {
-      '@type': 'Organization',
-      '@id': `${baseUrl}#business`,
-      name: siteConfig.name,
+      '@id': `${SITE_URL}#organization`,
     },
     potentialAction: [
       {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate: `${baseUrl}/zoeken?q={search_term_string}`,
+          urlTemplate: `${SITE_URL}/zoeken?q={search_term_string}`,
         },
         'query-input': 'required name=search_term_string',
       },
     ],
-    sameAs: [
-      siteConfig.social.linkedin,
-      siteConfig.social.github,
-      siteConfig.social.twitter,
-    ],
   };
 
-  // Organization schema
+  // Organization schema with optional address
+  const addrStreet = process.env.NEXT_PUBLIC_ADDR_STREET;
+  const addrCity = process.env.NEXT_PUBLIC_ADDR_CITY;
+  const addrZip = process.env.NEXT_PUBLIC_ADDR_ZIP;
+  const hasAddress = Boolean(addrStreet && addrCity && addrZip);
+
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': `${baseUrl}#business`,
+    '@id': `${SITE_URL}#organization`,
     name: siteConfig.name,
     alternateName: 'ProWeb Studio Nederland',
     description: siteConfig.description,
@@ -127,8 +118,18 @@ export default function SEOSchema({
       'Google Analytics',
       'Conversion optimalisatie',
     ],
-    areaServed: { '@type': 'AdministrativeArea', name: 'Netherlands' },
+    areaServed: 'NL',
     serviceArea: { '@type': 'Place', address: { '@type': 'PostalAddress', addressCountry: 'NL' } },
+    ...(hasAddress && {
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: addrStreet,
+        addressLocality: addrCity,
+        postalCode: addrZip,
+        addressRegion: 'NH',
+        addressCountry: 'NL',
+      },
+    }),
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Website Ontwikkeling Diensten',
@@ -142,7 +143,7 @@ export default function SEOSchema({
               'Professionele websites op maat voor Nederlandse bedrijven',
             category: 'Webdevelopment',
             provider: {
-              '@id': `${baseUrl}#business`,
+              '@id': `${SITE_URL}#organization`,
             },
           },
           priceSpecification: {
@@ -161,7 +162,7 @@ export default function SEOSchema({
             description: 'Innovatieve 3D websites met Three.js en WebGL',
             category: 'Advanced Webdevelopment',
             provider: {
-              '@id': `${baseUrl}#business`,
+              '@id': `${SITE_URL}#organization`,
             },
           },
           priceSpecification: {
@@ -180,7 +181,7 @@ export default function SEOSchema({
             description: 'Zoekmachine optimalisatie voor Nederlandse markt',
             category: 'Digital Marketing',
             provider: {
-              '@id': `${baseUrl}#business`,
+              '@id': `${SITE_URL}#organization`,
             },
           },
           priceSpecification: {
@@ -199,7 +200,7 @@ export default function SEOSchema({
             description: 'E-commerce websites met Nederlandse betaalmethoden',
             category: 'E-commerce Development',
             provider: {
-              '@id': `${baseUrl}#business`,
+              '@id': `${SITE_URL}#organization`,
             },
           },
           priceSpecification: {
@@ -246,7 +247,7 @@ export default function SEOSchema({
       siteConfig.social.linkedin,
       siteConfig.social.github,
       siteConfig.social.twitter,
-    ],
+    ].filter(Boolean),
   };
 
   // Breadcrumb schema (if breadcrumbs are provided)
@@ -255,7 +256,7 @@ export default function SEOSchema({
       ? {
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
-          '@id': `${baseUrl}#breadcrumb`,
+          '@id': `${SITE_URL}#breadcrumb`,
           itemListElement: breadcrumbs.map((crumb, index) => ({
             '@type': 'ListItem',
             position: index + 1,
@@ -269,19 +270,19 @@ export default function SEOSchema({
   const webPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    '@id': `${baseUrl}#webpage`,
+    '@id': `${SITE_URL}#webpage`,
     name: pageTitle || `${siteConfig.name} - ${siteConfig.tagline}`,
     description: pageDescription || siteConfig.description,
     url: abs('/'),
     inLanguage: 'nl-NL',
     isPartOf: {
-      '@id': abs('/#website'),
+      '@id': `${SITE_URL}#website`,
     },
     about: {
-      '@id': `${baseUrl}#business`,
+      '@id': `${SITE_URL}#organization`,
     },
     publisher: {
-      '@id': `${baseUrl}#business`,
+      '@id': `${SITE_URL}#organization`,
     },
     mainContentOfPage: {
       '@type': 'WebPageElement',
@@ -293,7 +294,7 @@ export default function SEOSchema({
     },
     ...(pageType === 'homepage' && {
       mainEntity: {
-        '@id': `${baseUrl}#business`,
+        '@id': `${SITE_URL}#organization`,
       },
     }),
     ...(pageType === 'service' && {
@@ -301,7 +302,7 @@ export default function SEOSchema({
         '@type': 'Service',
         name: pageTitle || 'Website Development Services',
         provider: {
-          '@id': `${baseUrl}#business`,
+          '@id': `${SITE_URL}#organization`,
         },
       },
     }),

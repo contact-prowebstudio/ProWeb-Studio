@@ -30,7 +30,7 @@ const contactSchema = z.object({
     .min(10, 'Bericht moet minimaal 10 karakters zijn')
     .max(5000, 'Bericht te lang'),
   // Honeypot field (should remain empty)
-  _honey: z.string().max(0).optional(),
+  website: z.string().max(0).optional(),
 });
 
 type FormStatus = 'idle' | 'sending' | 'success' | 'error';
@@ -52,7 +52,7 @@ export default function SecureContactForm() {
     phone: '',
     projectTypes: [] as string[],
     message: '',
-    _honey: '', // Honeypot field
+    website: '', // Honeypot field
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<FormStatus>('idle');
@@ -193,7 +193,7 @@ export default function SecureContactForm() {
     }
 
     // Check honeypot field
-    if (form._honey && form._honey.length > 0) {
+    if (form.website && form.website.length > 0) {
       console.warn('Honeypot field filled');
       setErrors({ general: 'Bot gedetecteerd.' });
       setStatus('error');
@@ -257,7 +257,7 @@ export default function SecureContactForm() {
         phone: '',
         projectTypes: [],
         message: '',
-        _honey: '',
+        website: '',
       });
     } catch (error) {
       console.error('Submission failed:', error);
@@ -415,15 +415,17 @@ export default function SecureContactForm() {
 
               {/* Honeypot field - hidden from users */}
               <div style={{ display: 'none' }}>
-                <label htmlFor="_honey">Website (do not fill):</label>
+                <label htmlFor="website">Website (do not fill):</label>
                 <input
                   type="text"
-                  id="_honey"
-                  name="_honey"
-                  value={form._honey}
+                  id="website"
+                  name="website"
+                  value={form.website}
                   onChange={onChange}
                   tabIndex={-1}
                   autoComplete="off"
+                  aria-hidden="true"
+                  inputMode="text"
                 />
               </div>
 

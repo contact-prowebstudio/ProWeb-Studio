@@ -7,6 +7,10 @@ export const revalidate = 60 * 60 * 24;
 import { Suspense } from 'react';
 import Image from 'next/image';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
+
+// Get canonical URL from environment with fallback
+const SITE_URL = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prowebstudio.nl';
 
 export const metadata: Metadata = {
   title: 'Werkwijze – van intake tot launch, transparant en voorspelbaar',
@@ -20,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Werkwijze – van intake tot launch, transparant en voorspelbaar',
     description:
       'Helder proces: intake & strategie, design, bouwen, launch & groei. Transparante communicatie en meetbare stappen.',
-    url: 'https://prowebstudio.nl/werkwijze',
+    url: `${SITE_URL}/werkwijze`,
     type: 'website',
     locale: 'nl_NL',
   },
@@ -47,6 +51,12 @@ const steps = [
 export default function Werkwijze() {
   return (
     <main className="content-safe-top pt-20 md:pt-24">
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Werkwijze", url: "/werkwijze" }
+        ]}
+      />
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="text-center mb-12">

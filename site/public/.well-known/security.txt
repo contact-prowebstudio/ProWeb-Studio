@@ -4,8 +4,8 @@ Expires: 2026-12-31T23:59:59.000Z
 Encryption: https://prowebstudio.nl/.well-known/pgp-key.txt
 Preferred-Languages: nl, en
 Canonical: https://prowebstudio.nl/.well-known/security.txt
-Policy: https://prowebstudio.nl/security-policy
-Acknowledgments: https://prowebstudio.nl/security-acknowledgments
+Policy: https://prowebstudio.nl/privacy
+Acknowledgments: https://prowebstudio.nl/over-ons
 Hiring: https://prowebstudio.nl/contact
 
 # ProWeb Studio Security Policy

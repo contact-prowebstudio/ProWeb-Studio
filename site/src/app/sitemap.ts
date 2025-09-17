@@ -36,37 +36,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: '/diensten',
       priority: 0.9,
       changeFreq: 'monthly',
-      lastMod: new Date('2024-12-01'), // Services page - updated monthly
+      lastMod: new Date('2025-09-01'), // Services page - updated monthly
     },
     {
       path: '/werkwijze',
       priority: 0.8,
       changeFreq: 'monthly',
-      lastMod: new Date('2024-11-15'), // Work process page
+      lastMod: new Date('2025-08-15'), // Work process page
     },
     {
       path: '/speeltuin',
       priority: 0.7,
       changeFreq: 'weekly',
-      lastMod: new Date('2024-12-15'), // Tech playground - updated with new demos
+      lastMod: new Date('2025-09-15'), // Tech playground - updated with new demos
     },
     {
       path: '/contact',
       priority: 0.9,
       changeFreq: 'monthly',
-      lastMod: new Date('2024-11-01'), // Contact page - high priority for conversions
+      lastMod: new Date('2025-08-01'), // Contact page - high priority for conversions
     },
     {
       path: '/privacy',
       priority: 0.3,
       changeFreq: 'yearly',
-      lastMod: new Date('2024-05-25'), // GDPR compliance date
+      lastMod: new Date('2025-05-25'), // GDPR compliance date
     },
     {
       path: '/voorwaarden',
       priority: 0.3,
       changeFreq: 'yearly',
-      lastMod: new Date('2024-05-25'), // Terms and conditions
+      lastMod: new Date('2025-05-25'), // Terms and conditions
     },
   ];
 
@@ -82,25 +82,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: '/diensten/website-laten-maken',
       priority: 0.8,
       changeFreq: 'monthly',
-      lastMod: new Date('2024-12-01'),
+      lastMod: new Date('2025-09-01'),
     },
     {
       path: '/diensten/3d-website-ontwikkeling',
       priority: 0.8,
       changeFreq: 'monthly',
-      lastMod: new Date('2024-12-01'),
+      lastMod: new Date('2025-09-01'),
     },
     {
       path: '/diensten/seo-optimalisatie',
       priority: 0.8,
       changeFreq: 'monthly',
-      lastMod: new Date('2024-12-01'),
+      lastMod: new Date('2025-09-01'),
     },
     {
       path: '/diensten/webshop-laten-maken',
       priority: 0.8,
       changeFreq: 'monthly',
-      lastMod: new Date('2024-12-01'),
+      lastMod: new Date('2025-09-01'),
     },
     // Blog or portfolio entries could be added here dynamically
     // Example: blog posts, case studies, etc.

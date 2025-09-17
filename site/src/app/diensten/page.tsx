@@ -9,6 +9,11 @@ import Image from 'next/image';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { siteConfig } from '@/config/site.config';
 import FAQSchema from '@/components/FAQSchema';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
+import ServiceSchema from '@/components/ServiceSchema';
+
+// Get canonical URL from environment with fallback
+const SITE_URL = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prowebstudio.nl';
 
 export const metadata: Metadata = {
   title: 'Diensten – Webdesign, 3D websites, SEO & performance optimalisatie',
@@ -22,7 +27,7 @@ export const metadata: Metadata = {
     title: 'Diensten – Webdesign, 3D websites, SEO & performance optimalisatie',
     description:
       'Maatwerk webdesign & development met 3D-ervaringen, technische SEO, Core Web Vitals en headless CMS. Gericht op groei en resultaat.',
-    url: 'https://prowebstudio.nl/diensten',
+    url: `${SITE_URL}/diensten`,
     type: 'website',
     locale: 'nl_NL',
   },
@@ -125,6 +130,31 @@ export default function Diensten() {
 
   return (
     <main className="pt-20 md:pt-24">
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Diensten", url: "/diensten" }
+        ]}
+      />
+      <ServiceSchema
+        services={[
+          {
+            name: "Webdesign & Development",
+            description: "Razendsnelle, veilige en schaalbare websites gebouwd met Next.js & React",
+            serviceType: "Webdesign"
+          },
+          {
+            name: "3D Web Visualisaties",
+            description: "Interactieve 3D-ervaringen en product configurators met WebGL & Three.js",
+            serviceType: "3D Web Visualizations"
+          },
+          {
+            name: "SEO & Performance Optimalisatie",
+            description: "Data-gedreven groei door SEO, A/B testing en conversie optimalisatie",
+            serviceType: "SEO"
+          }
+        ]}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

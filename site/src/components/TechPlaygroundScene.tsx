@@ -285,6 +285,14 @@ function CrystalPrism({
     return new THREE.IcosahedronGeometry(0.6, Math.max(1, Math.floor(detail * 2)));
   }, [config.geometryDetail]);
 
+  // Cleanup geometries on unmount or config changes
+  React.useEffect(() => {
+    return () => {
+      outerGeo.dispose();
+      innerGeo.dispose();
+    };
+  }, [outerGeo, innerGeo]);
+
   useFrame((state) => {
     if (!meshRef.current || !innerRef.current) return;
 
@@ -646,35 +654,49 @@ function CosmicDust({
   crystalEmission: boolean;
 }) {
   const points = React.useRef<THREE.Points>(null!);
-  const count = getOptimizedConfig().dustParticles;
-
+  
+  // Preallocate to maximum possible particle count to avoid buffer attribute length changes
+  const MAX_PARTICLES = 2000; // High-end desktop max from getOptimizedConfig
+  const actualCount = getOptimizedConfig().dustParticles;
+  
+  // Fixed-length positions array - allocated once, never recreated
   const positions = React.useMemo(() => {
-    const pos = new Float32Array(count * 3);
+    const pos = new Float32Array(MAX_PARTICLES * 3);
+    const currentCount = actualCount; // Capture actualCount at memo creation time
+    
+    // Initialize all particles, even those beyond actualCount (they'll be culled via drawRange)
+    for (let i = 0; i < MAX_PARTICLES; i++) {
+      if (i < currentCount) {
+        if (crystalEmission && i < currentCount * 0.3) {
+          // Some particles start near the crystal
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.random() * Math.PI;
+          const r = 1 + Math.random() * 0.5;
 
-    for (let i = 0; i < count; i++) {
-      if (crystalEmission && i < count * 0.3) {
-        // Some particles start near the crystal
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * Math.PI;
-        const r = 1 + Math.random() * 0.5;
+          pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+          pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+          pos[i * 3 + 2] = r * Math.cos(phi);
+        } else {
+          // Regular distribution
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(2 * Math.random() - 1);
+          const r = 2 + Math.random() * 10;
 
-        pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-        pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        pos[i * 3 + 2] = r * Math.cos(phi);
+          pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+          pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+          pos[i * 3 + 2] = r * Math.cos(phi);
+        }
       } else {
-        // Regular distribution
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-        const r = 2 + Math.random() * 10;
-
-        pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-        pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        pos[i * 3 + 2] = r * Math.cos(phi);
+        // Place unused particles far away (they won't be drawn due to drawRange)
+        pos[i * 3] = 1000;
+        pos[i * 3 + 1] = 1000;
+        pos[i * 3 + 2] = 1000;
       }
     }
 
     return pos;
-  }, [crystalEmission, count]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [crystalEmission]); // Explicitly excluding actualCount to prevent recreation
 
   useFrame((state) => {
     if (!points.current) return;
@@ -683,7 +705,8 @@ function CosmicDust({
     const posArray = points.current.geometry.attributes.position
       .array as Float32Array;
 
-    for (let i = 0; i < count; i++) {
+    // Only animate particles within the actual count, not the full preallocated array
+    for (let i = 0; i < actualCount; i++) {
       const idx = i * 3;
       const x = posArray[idx];
       const y = posArray[idx + 1];
@@ -730,9 +753,18 @@ function CosmicDust({
       }
     }
 
+    // Use proper attribute update instead of setting needsUpdate on array
     points.current.geometry.attributes.position.needsUpdate = true;
     points.current.rotation.y = time * 0.01;
   });
+
+  // Effect to set geometry drawRange when actualCount changes
+  React.useEffect(() => {
+    if (points.current?.geometry) {
+      // Only draw the actual particles, not the full preallocated array
+      points.current.geometry.setDrawRange(0, actualCount);
+    }
+  }, [actualCount]);
 
   return (
     <Points ref={points} positions={positions} stride={3} frustumCulled={false}>
@@ -1056,6 +1088,8 @@ export default function StudioAnwarScene({
           powerPreference: 'high-performance',
           alpha: false, // Disable alpha for better performance
           preserveDrawingBuffer: false, // Disable for better performance
+          failIfMajorPerformanceCaveat: false, // Allow fallback on low-end devices
+          stencil: false, // Disable stencil buffer for performance
         }}
         dpr={finalConfig.dpr as [number, number]}
         camera={{ 
@@ -1066,6 +1100,19 @@ export default function StudioAnwarScene({
         }}
         shadows={optimizedSettings.enableShadows && finalConfig.maxLights > 2}
         onCreated={(state) => {
+          // WebGL context loss prevention and recovery
+          const canvas = state.gl.domElement;
+          
+          // Prevent context loss by preventing default behavior
+          canvas.addEventListener('webglcontextlost', (event) => {
+            console.warn('WebGL context lost, attempting recovery...');
+            event.preventDefault(); // Allow context restoration
+          });
+          
+          canvas.addEventListener('webglcontextrestored', () => {
+            console.log('WebGL context restored successfully');
+          });
+
           // Enhanced mobile optimization
           if (capabilities.isMobile || capabilities.isLowEndDevice) {
             state.gl.setPixelRatio(Math.min(window.devicePixelRatio, finalConfig.dpr[1]));

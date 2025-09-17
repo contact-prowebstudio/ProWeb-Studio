@@ -218,7 +218,7 @@ export function usePerformanceMonitor(
     }
 
     animationFrameRef.current = requestAnimationFrame(measurePerformance);
-  }, [enabled, sampleSize, targetFPS, adjustQuality]);
+  }, [enabled, sampleSize, adjustQuality]);
 
   // Manual quality override
   const setQualityLevel = useCallback((level: 'low' | 'medium' | 'high') => {

@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import LegalContentLayout from '@/components/LegalContentLayout';
 import { siteConfig } from '@/config/site.config';
+import BreadcrumbSchema from '@/components/BreadcrumbSchema';
+
+// Get canonical URL from environment with fallback
+const SITE_URL = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prowebstudio.nl';
 
 export const dynamic = 'force-static';
 export const revalidate = 60 * 60 * 24;
@@ -17,7 +21,7 @@ export const metadata: Metadata = {
     title: 'Privacybeleid – ProWeb Studio',
     description:
       'Lees hoe wij met persoonsgegevens omgaan: welke data we verzamelen, waarom, bewaartermijnen en uw rechten.',
-    url: 'https://prowebstudio.nl/privacy',
+    url: `${SITE_URL}/privacy`,
     type: 'website',
     locale: 'nl_NL',
   },
@@ -30,7 +34,14 @@ export default function PrivacyPage() {
   const today = new Date().toISOString().slice(0, 10);
 
   return (
-    <LegalContentLayout>
+    <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Privacy", url: "/privacy" }
+        ]}
+      />
+      <LegalContentLayout>
       <h1>Privacybeleid</h1>
 
       <p>
@@ -233,5 +244,6 @@ export default function PrivacyPage() {
         <p>privacy@prowebstudio.nl of contact@prowebstudio.nl</p>
       </section>
     </LegalContentLayout>
+    </>
   );
 }

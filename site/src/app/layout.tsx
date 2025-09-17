@@ -8,25 +8,33 @@ import { siteConfig } from '@/config/site.config';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CursorTrail from '@/components/CursorTrail';
-import LocalBusinessSchema from '@/components/LocalBusinessSchema';
 import SEOSchema from '@/components/SEOSchema';
+import { WebVitalsReporter } from '@/components/WebVitalsReporter';
+import { initProductionEnvValidation } from '@/lib/env.server';
+
+// Initialize environment validation for production deployments
+initProductionEnvValidation();
+
+// Get canonical URL from environment with fallback
+const SITE_URL = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://prowebstudio.nl';
 
 const inter = Inter({ subsets: ['latin', 'latin-ext'], display: 'swap' });
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: `${siteConfig.name} - ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: 'cover',
-  },
   keywords: [
     'website laten maken nederland',
     'webdevelopment nederland',
@@ -68,11 +76,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${siteConfig.name} - ${siteConfig.tagline}`,
     description: siteConfig.description,
-    url: siteConfig.url,
+    url: SITE_URL,
     siteName: siteConfig.name,
     images: [
       {
-        url: '/og',
+        url: `${SITE_URL}/og`,
         width: 1200,
         height: 630,
         alt: `${siteConfig.name} - ${siteConfig.tagline}`,
@@ -93,7 +101,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: '/og',
+        url: `${SITE_URL}/og`,
         width: 1200,
         height: 630,
         alt: `${siteConfig.name} - ${siteConfig.tagline}`,
@@ -121,10 +129,10 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: siteConfig.url,
+    canonical: SITE_URL,
     languages: {
-      'nl-NL': siteConfig.url,
-      'x-default': siteConfig.url,
+      'nl-NL': SITE_URL,
+      'x-default': SITE_URL,
     },
   },
   category: 'technology',
@@ -156,8 +164,8 @@ export const metadata: Metadata = {
     copyright: `© ${new Date().getFullYear()} ${siteConfig.name}`,
     designer: siteConfig.name,
     owner: siteConfig.name,
-    url: siteConfig.url,
-    'identifier-URL': siteConfig.url,
+    url: SITE_URL,
+    'identifier-URL': SITE_URL,
     pagename: siteConfig.name,
     category: 'internet',
     'dc.title': siteConfig.name,
@@ -169,10 +177,10 @@ export const metadata: Metadata = {
     'dc.date': new Date().toISOString(),
     'dc.type': 'text',
     'dc.format': 'text/html',
-    'dc.identifier': siteConfig.url,
-    'dc.source': siteConfig.url,
+    'dc.identifier': SITE_URL,
+    'dc.source': SITE_URL,
     'dc.language': 'nl-NL',
-    'dc.relation': siteConfig.url,
+    'dc.relation': SITE_URL,
     'dc.coverage': 'Netherlands',
     'dc.rights': `© ${new Date().getFullYear()} ${siteConfig.name}`,
     'geo.region': 'NL',
@@ -187,17 +195,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Read environment variables for Dutch legal IDs and address
-  const kvk = process.env.NEXT_PUBLIC_KVK || '93769865';
-  const btw = process.env.NEXT_PUBLIC_BTW || 'NL005041113B60';
-  const addrStreet = process.env.NEXT_PUBLIC_ADDR_STREET;
-  const addrCity = process.env.NEXT_PUBLIC_ADDR_CITY;
-  const addrZip = process.env.NEXT_PUBLIC_ADDR_ZIP;
-  const hasAddress = Boolean(addrStreet && addrCity && addrZip);
-  const nlServiceArea = ['Netherlands', 'Amsterdam', 'Rotterdam', 'Utrecht', 'Den Haag', 'Eindhoven'] as const;
   return (
     <html lang="nl-NL">
       <head>
+        <link rel="preconnect" href="https://plausible.io" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://plausible.io" />
+        <link rel="preconnect" href="https://cal.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://cal.com" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png" />
@@ -211,24 +215,8 @@ export default function RootLayout({
         <Footer />
         <CursorTrail />
 
-        <LocalBusinessSchema
-          kvkNumber={kvk}
-          vatID={btw}
-          {...(hasAddress ? {
-            address: {
-              streetAddress: addrStreet!,
-              addressLocality: addrCity!,
-              postalCode: addrZip!,
-              addressRegion: 'NH',
-              addressCountry: 'NL',
-            }
-          } : {
-            serviceArea: nlServiceArea,
-            areaServed: nlServiceArea,
-          })}
-          openingHours={['Mo-Fr 09:00-17:00']}
-        />
         <SEOSchema pageType="homepage" />
+        <WebVitalsReporter />
 
         <Script
           defer

@@ -100,66 +100,10 @@ function createSecurityHeaders(): Record<string, string> {
   const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString('base64');
   
   return {
-    // Content Security Policy - Report Only
-    'Content-Security-Policy-Report-Only': [
-      "default-src 'self'",
-      `script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://js.cal.com https://plausible.io https://va.vercel-scripts.com 'nonce-${nonce}'`,
-      `script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://plausible.io https://va.vercel-scripts.com`,
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: https: blob:",
-      "media-src 'self' https:",
-      "frame-src 'self' https://www.google.com https://cal.com https://app.cal.com",
-      "connect-src 'self' https://api.cal.com https://www.google-analytics.com https://plausible.io https://vitals.vercel-insights.com https://va.vercel-scripts.com",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "frame-ancestors 'none'",
-      "form-action 'self'",
-      "upgrade-insecure-requests"
-    ].join('; '),
+    // Only keep non-duplicated headers here
+    // All security headers are now handled in next.config.mjs
     
-    // Permissions Policy
-    'Permissions-Policy': [
-      'accelerometer=()',
-      'autoplay=()',
-      'camera=()',
-      'cross-origin-isolated=()',
-      'display-capture=()',
-      'encrypted-media=()',
-      'fullscreen=(self)',
-      'geolocation=()',
-      'gyroscope=()',
-      'keyboard-map=()',
-      'magnetometer=()',
-      'microphone=()',
-      'midi=()',
-      'payment=()',
-      'picture-in-picture=()',
-      'publickey-credentials-get=()',
-      'screen-wake-lock=()',
-      'sync-xhr=()',
-      'usb=()',
-      'xr-spatial-tracking=()'
-    ].join(', '),
-    
-    // Security Headers
-    'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
-    'X-Frame-Options': 'DENY',
-    'X-Content-Type-Options': 'nosniff',
-    'X-DNS-Prefetch-Control': 'on',
-    'Referrer-Policy': 'strict-origin-when-cross-origin',
-    'X-XSS-Protection': '1; mode=block',
-    'X-Permitted-Cross-Domain-Policies': 'none',
-    'Cross-Origin-Embedder-Policy': 'unsafe-none',
-    'Cross-Origin-Opener-Policy': 'same-origin',
-    'Cross-Origin-Resource-Policy': 'same-origin',
-    
-    // Custom Security Headers
-    'X-Security-Version': '1.0',
-    'X-Content-Options': 'noopen',
-    'X-Download-Options': 'noopen',
-    
-    // Nonce for inline scripts
+    // Nonce for inline scripts (unique per request)
     'X-Nonce': nonce
   };
 }
@@ -177,12 +121,7 @@ export async function middleware(req: NextRequest) {
   ) {
     return NextResponse.next();
   }
-  
-  // Log security events in production
-  if (process.env.NODE_ENV === 'production') {
-    console.log(`Security Check: ${ip} ${req.method} ${path} ${userAgent.substring(0, 100)}`);
-  }
-  
+
   // 1. Bot Detection
   if (detectBot(userAgent) && !path.startsWith('/api/')) {
     // Allow bots for SEO but block from sensitive areas
@@ -226,13 +165,9 @@ export async function middleware(req: NextRequest) {
     response.headers.set(key, value);
   });
   
-  // 6. Additional headers for API routes
-  if (path.startsWith('/api/')) {
-    response.headers.set('X-API-Version', '1.0');
-    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-    response.headers.set('Pragma', 'no-cache');
-    response.headers.set('Expires', '0');
-  }
+  // Note: API headers (X-API-Version, Cache-Control, Pragma, Expires) are now
+  // exclusively handled in next.config.mjs under async headers() for /api/:path*
+  // to avoid duplication and ensure single source of truth
   
   return response;
 }
