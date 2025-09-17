@@ -26,15 +26,7 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
-  // PWA and Service Worker
-  async rewrites() {
-    return [
-      {
-        source: '/sw.js',
-        destination: '/_next/static/chunks/sw.js',
-      },
-    ];
-  },
+  // PWA and Service Worker: serve /public/sw.js directly as /sw.js
 
   // Webpack optimization
   webpack: (config, { dev, isServer }) => {
@@ -139,7 +131,6 @@ const nextConfig = {
           { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
           // Custom security headers
           { key: 'X-Security-Version', value: '2.0' },
-          { key: 'X-Content-Options', value: 'noopen' },
           { key: 'X-Download-Options', value: 'noopen' },
           // Cache control for general pages
           { key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400' },

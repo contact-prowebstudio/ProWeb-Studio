@@ -52,7 +52,7 @@ export default class ThreeErrorBoundary extends Component<Props, State> {
       const variant = this.props.variant || 'scene';
 
       return (
-        <div className={`${variants[variant]} relative flex items-center justify-center bg-gradient-to-br from-gray-900 to-black`}>
+        <div className={`${variants[variant]} relative flex items-center justify-center bg-gradient-to-br from-gray-900 to-black`} role="alert" aria-live="assertive">
           <div className="text-center p-6 sm:p-7 md:p-8 max-w-md">
             <div className="mb-6">
               <svg 

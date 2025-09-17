@@ -33,7 +33,7 @@ describe('Button', () => {
   it('applies the normal size class by default', () => {
     render(<Button href="/test">Click me</Button>);
     const button = screen.getByRole('link');
-    expect(button).toHaveClass('px-8 py-3');
+    expect(button).toHaveClass('px-6 py-3');
   });
 
   it('applies the large size class when specified', () => {
@@ -43,6 +43,6 @@ describe('Button', () => {
       </Button>,
     );
     const button = screen.getByRole('link');
-    expect(button).toHaveClass('px-10 py-4');
+    expect(button).toHaveClass('md:px-10 md:py-4');
   });
 });

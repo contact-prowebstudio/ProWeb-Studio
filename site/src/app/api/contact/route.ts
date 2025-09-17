@@ -45,8 +45,8 @@ const contactSchema = z.object({
       ];
       return !spamPatterns.some(pattern => pattern.test(msg));
     }, 'Message contains prohibited content'),
-  // Honeypot field (should be empty)
-  website: z.string().max(0).optional(),
+  // Honeypot field (validated later; allowing any string to reach logic)
+  website: z.string().optional(),
   // reCAPTCHA token
   recaptchaToken: z.string().min(1, 'reCAPTCHA verification required'),
   // Timestamp to prevent replay attacks

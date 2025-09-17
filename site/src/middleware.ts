@@ -81,8 +81,10 @@ function validateRequest(req: NextRequest): { valid: boolean; reason?: string } 
         'https://prowebstudio.nl',
         'https://www.prowebstudio.nl'
       ];
+      // Allow Vercel preview deployments
+      const isVercelPreview = origin?.endsWith('.vercel.app');
       
-      if (origin && !allowedOrigins.includes(origin)) {
+      if (origin && !isVercelPreview && !allowedOrigins.includes(origin)) {
         return { valid: false, reason: 'Invalid origin' };
       }
     }
@@ -97,7 +99,9 @@ function validateRequest(req: NextRequest): { valid: boolean; reason?: string } 
 }
 
 function createSecurityHeaders(): Record<string, string> {
-  const nonce = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString('base64');
+  const nonce = (globalThis.crypto && 'randomUUID' in globalThis.crypto)
+    ? globalThis.crypto.randomUUID()
+    : Math.random().toString(36).slice(2);
   
   return {
     // Only keep non-duplicated headers here
